@@ -243,6 +243,48 @@ This takes `a` and just repeats it 7 times.  Remember `a`is 20 instances of `1` 
 
 This leaves us with a new variable indicating which of two measurement observations each row comes from.
 
+
+This takes `a` and just repeats it 7 times.  Remember `a`is 20 instances of `1` followed by 20 instances of `2`.  So it's length is 40.  Repeating it seven times gives $40*7 = 280$, which is exactly as long as our dataframe.
+
+This leaves us with a new variable indicating which of two measurement observations each row comes from.  Now, we can create a plot of the how any given variable differs by time.  I'm also going to use a short regular expression here to select all instances of `variable` which contain the text `locomotion`.
+
+```{r}
+#plot <- ggplot(breach[grep("locomotion", variable), ], aes(x=value, color=time))
+#plot + geom_density()
+
+#This throws an error:
+#Error in unit(tic_pos.c, "mm") : 'x' and 'units' must have length > 0
+```
+
+Okay, this results in an error, and it took me about 10 minutes to figure out why.  However, let's take it apart to see what is *supposed* to happen.  First:
+
+`ggplot(breach[grep("locomotion", breach$variable), ], ...`
+
+Where we usually feed in the dataframe, this time, we've fed in just a subset of the dataframe.  I've used a global regular expression (`grep`) to find all the instances in `variable` which have a match of the letter string `locomotion`.  This gives me the 40 rows I'm interested in.  Next:
+
+`...aes(x=value, color=time))`
+
+This isn't too different from what we did before when we defined the aesthetic.  We said we want `value` on the x axis, and that we'd like to give the data a different color depending on what is in the `time` vector.  Finally:
+
+`plot + geom_density()`
+
+I've added a slightly different layer for visual aesthetic reasons.  Since the histogram is a little chunky, and we're overlaying two distrubtions on top of each other, it seemed like a good idea to use a density plot rather than a histogram.  The information isn't any different here, it just looks  a bit better.
+
+So, why the error?  This is a nice case study in the importance of knowing what data types you're working with.  When we pass an argument to color, it is expecting collection of categories.  In our case, we have two categories:  time 1 and time 2.  However, `time` is stored as a continuous variable:
+
+```{r}
+str(breach$time)
+```
+
+Even though we have only two values for time, since we fed it numbers and didn't specify otherwise, R recognized it as a continuous numeric variable.  Thus, it is stored internally as a `numeric`.  The color argument in our ggplot wants discrete categories on which it can map discrete colors.  So, if we just change what we feed into the `color` argument to a `factor`, this should work!
+
+```{r, warning=FALSE}
+plot <- ggplot(breach[grep("locomotion", breach$variable), ], aes(x=value, color=as.factor(time)))
+plot + geom_density()
+```
+
+Ahhh, much better!
+
 [ref1]: <http://www.menustat.org>
 [img1]: menustat_text.png
 [ref2]: <http://had.co.nz>
