@@ -1,6 +1,6 @@
 StatsWorkshop
 =============
-These are the files used in the creation of the stats workshop.  I haven't included data here, since it isn't mine and I don't have permission to share the data.  The main files are::
+These are the files used in the creation of the stats workshop run for graduate students.  I haven't included data here, since it isn't mine and I don't have permission to share the data (with the exception of the menustat.org data).  The main files are::
   
 **1.  Session 1.Rmd**  
   This is the Rmarkdown file used to explore the data in session 1.
