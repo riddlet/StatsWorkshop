@@ -1,0 +1,45 @@
+---
+title: "Menustat"
+output: html_document
+---
+
+I've put together a document which should guide the work we're doing in our stats workshop.  This is an applied statistics approach in which we will emphasize the day-to-day work of data analysis.  First, we will need some data!  Where do we get it?  The typical approach in academic psychology is to run some kind of study.  This isn't true for every discipline, and arguably, our own discipline doesn't take enough advantage of the data which can be found free for the taking in the real world.  For example, I took the following data from [menustat.org][ref1].  Let's try to read it in.
+
+```{r}
+menus<-read.csv('menustat-546cf6b433804.csv')
+#this doesn't work.  Throws an error:
+
+#Error in read.table(file = file, header = header, sep = sep, quote = quote,  : 
+#  more columns than column names
+```
+
+Aw damn.  Well, that didn't work.  Why not?  The error message says that there's a mismatch between the number of columns, and the number of names it has for the columns.  Usually, this function reads the column names from the first line of the csv document, so I'm guessing that something is wrong with the first line of the csv.  Opening it up in a text editor shows the following:
+
+![Raw text of menustat][img1]
+
+See the big chunk of text next to the 1 on the lefthand side?  That's all the stuff that appears in the first line, and we can see that it's just kind of a description of the file.  We can get rid of that.  Line 2 seems to have the columns we want.  So we're going to take a slightly different approach:
+
+1.  Read the file, line by line as one big vector
+2.  Remove the first line.
+3.  Turn the vector into a dataframe.
+
+
+```{r}
+#menus<-readLines('menustat-546cf6b433804.csv')
+#menus<-menus[-1]
+#menus<-read.csv(textConnection(menus)) #this takes a minute...
+```
+
+Now we have a datafile for our menus data!  This is a new datafile for all of us, so let's just get some information about it.
+
+```{r}
+#dim(menus)
+```
+
+Serious data, ya'll.  We've got 60,238 observations across 52 different variables.  Let's get a little information about those variables.
+
+```{r}
+#names(menus)
+```
+
+We can now see the names for our variables.  Looks like there's one for restaurant, one for food category, one for the item, and then we have a bunch of variables which are repeated for each of 3 years: 2014, 2013, 2012.  These variables describe the item, give us a serving size, and then the nutrient information (e.g. calories, fat, carbs, protein, etc.).
