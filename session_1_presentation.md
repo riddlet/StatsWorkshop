@@ -173,70 +173,70 @@ summary(breach)
 ```
 
 ```
-      subj        locomotion1     locomotion2    difflocomotion   
- Min.   : 1.00   Min.   :3.830   Min.   :3.580   Min.   :-1.7500  
- 1st Qu.: 5.75   1st Qu.:4.647   1st Qu.:4.560   1st Qu.:-0.3542  
- Median :10.50   Median :5.000   Median :4.920   Median :-0.2084  
- Mean   :10.50   Mean   :4.949   Mean   :4.816   Mean   :-0.1333  
- 3rd Qu.:15.25   3rd Qu.:5.122   3rd Qu.:5.270   3rd Qu.: 0.2708  
- Max.   :20.00   Max.   :5.750   Max.   :5.420   Max.   : 0.5000  
-                                                                  
-  assessment1     assessment2    diffassessment      promotion1   
- Min.   :3.750   Min.   :3.500   Min.   :-1.3333   Min.   :3.500  
- 1st Qu.:4.000   1st Qu.:3.830   1st Qu.:-0.5417   1st Qu.:3.830  
- Median :4.290   Median :3.920   Median :-0.3333   Median :4.000  
- Mean   :4.351   Mean   :4.017   Mean   :-0.3333   Mean   :4.058  
- 3rd Qu.:4.543   3rd Qu.:4.122   3rd Qu.:-0.1459   3rd Qu.:4.210  
- Max.   :5.170   Max.   :4.920   Max.   : 1.1667   Max.   :4.830  
-                                                                  
-   promotion2    diffpromotion       prevention1    prevention2 
- Min.   :3.170   Min.   :-0.83300   Min.   :1.00   Min.   :1.4  
- 1st Qu.:3.830   1st Qu.:-0.33300   1st Qu.:2.20   1st Qu.:2.2  
- Median :4.000   Median : 0.08350   Median :2.60   Median :2.7  
- Mean   :4.041   Mean   :-0.01665   Mean   :2.53   Mean   :2.6  
- 3rd Qu.:4.330   3rd Qu.: 0.33300   3rd Qu.:3.00   3rd Qu.:3.0  
- Max.   :4.830   Max.   : 0.50000   Max.   :3.80   Max.   :3.4  
-                                                                
- diffprevention     stress1         stress2        diffstress      
- Min.   :-0.80   Min.   :1.380   Min.   :1.000   Min.   :-0.75000  
- 1st Qu.:-0.25   1st Qu.:1.685   1st Qu.:1.718   1st Qu.:-0.12500  
- Median : 0.20   Median :1.880   Median :2.000   Median : 0.00000  
- Mean   : 0.07   Mean   :2.013   Mean   :2.068   Mean   : 0.08553  
- 3rd Qu.: 0.40   3rd Qu.:2.250   3rd Qu.:2.530   3rd Qu.: 0.37500  
- Max.   : 0.80   Max.   :3.500   Max.   :3.120   Max.   : 0.62500  
-                 NA's   :1                       NA's   :1         
-  flourishing         swls           lie2            lie1      
- Min.   :4.880   Min.   :4.40   Min.   :1.000   Min.   :1.000  
- 1st Qu.:5.750   1st Qu.:5.75   1st Qu.:2.290   1st Qu.:2.290  
- Median :6.000   Median :5.80   Median :2.670   Median :2.500  
- Mean   :5.976   Mean   :5.91   Mean   :2.675   Mean   :2.632  
- 3rd Qu.:6.250   3rd Qu.:6.20   3rd Qu.:3.042   3rd Qu.:3.000  
- Max.   :7.000   Max.   :7.00   Max.   :4.670   Max.   :4.500  
+      subj        locomotion1    locomotion2   difflocomotion  
+ Min.   : 1.00   Min.   :3.83   Min.   :3.58   Min.   :-1.750  
+ 1st Qu.: 5.75   1st Qu.:4.65   1st Qu.:4.56   1st Qu.:-0.354  
+ Median :10.50   Median :5.00   Median :4.92   Median :-0.208  
+ Mean   :10.50   Mean   :4.95   Mean   :4.82   Mean   :-0.133  
+ 3rd Qu.:15.25   3rd Qu.:5.12   3rd Qu.:5.27   3rd Qu.: 0.271  
+ Max.   :20.00   Max.   :5.75   Max.   :5.42   Max.   : 0.500  
                                                                
-    diffLie             LxA1            LxA2          diffLxA       
- Min.   :-0.6670   Min.   :14.70   Min.   :12.80   Min.   :-16.479  
- 1st Qu.:-0.2085   1st Qu.:21.60   1st Qu.:20.80   1st Qu.: -3.790  
- Median : 0.0000   Median :25.00   Median :24.20   Median : -1.760  
- Mean   : 0.0416   Mean   :24.72   Mean   :23.45   Mean   : -1.258  
- 3rd Qu.: 0.2085   3rd Qu.:26.25   3rd Qu.:27.80   3rd Qu.:  2.675  
- Max.   : 1.0000   Max.   :33.10   Max.   :29.30   Max.   :  5.167  
-                                                                    
-      age            exp           apride          lpride     
- Min.   :21.0   Min.   :0.00   Min.   :28.00   Min.   :29.00  
- 1st Qu.:24.0   1st Qu.:2.00   1st Qu.:36.00   1st Qu.:38.00  
- Median :26.0   Median :3.00   Median :38.00   Median :41.50  
- Mean   :25.9   Mean   :3.25   Mean   :37.45   Mean   :41.35  
- 3rd Qu.:28.0   3rd Qu.:4.00   3rd Qu.:39.00   3rd Qu.:46.00  
- Max.   :31.0   Max.   :8.00   Max.   :46.00   Max.   :49.00  
+  assessment1    assessment2   diffassessment     promotion1  
+ Min.   :3.75   Min.   :3.50   Min.   :-1.333   Min.   :3.50  
+ 1st Qu.:4.00   1st Qu.:3.83   1st Qu.:-0.542   1st Qu.:3.83  
+ Median :4.29   Median :3.92   Median :-0.333   Median :4.00  
+ Mean   :4.35   Mean   :4.02   Mean   :-0.333   Mean   :4.06  
+ 3rd Qu.:4.54   3rd Qu.:4.12   3rd Qu.:-0.146   3rd Qu.:4.21  
+ Max.   :5.17   Max.   :4.92   Max.   : 1.167   Max.   :4.83  
                                                               
-      eom          rankindiv         rank21         averank      
- Min.   :34.00   Min.   : 1.00   Min.   : 1.00   Min.   : 1.500  
- 1st Qu.:37.00   1st Qu.: 5.75   1st Qu.: 5.75   1st Qu.: 5.875  
- Median :38.50   Median :10.50   Median :11.00   Median :10.500  
- Mean   :38.45   Mean   :10.50   Mean   :11.00   Mean   :10.750  
- 3rd Qu.:40.00   3rd Qu.:15.25   3rd Qu.:16.25   3rd Qu.:16.500  
- Max.   :43.00   Max.   :20.00   Max.   :21.00   Max.   :20.000  
+   promotion2   diffpromotion      prevention1    prevention2 
+ Min.   :3.17   Min.   :-0.8330   Min.   :1.00   Min.   :1.4  
+ 1st Qu.:3.83   1st Qu.:-0.3330   1st Qu.:2.20   1st Qu.:2.2  
+ Median :4.00   Median : 0.0835   Median :2.60   Median :2.7  
+ Mean   :4.04   Mean   :-0.0167   Mean   :2.53   Mean   :2.6  
+ 3rd Qu.:4.33   3rd Qu.: 0.3330   3rd Qu.:3.00   3rd Qu.:3.0  
+ Max.   :4.83   Max.   : 0.5000   Max.   :3.80   Max.   :3.4  
+                                                              
+ diffprevention     stress1        stress2       diffstress     
+ Min.   :-0.80   Min.   :1.38   Min.   :1.00   Min.   :-0.7500  
+ 1st Qu.:-0.25   1st Qu.:1.69   1st Qu.:1.72   1st Qu.:-0.1250  
+ Median : 0.20   Median :1.88   Median :2.00   Median : 0.0000  
+ Mean   : 0.07   Mean   :2.01   Mean   :2.07   Mean   : 0.0855  
+ 3rd Qu.: 0.40   3rd Qu.:2.25   3rd Qu.:2.53   3rd Qu.: 0.3750  
+ Max.   : 0.80   Max.   :3.50   Max.   :3.12   Max.   : 0.6250  
+                 NA's   :1                     NA's   :1        
+  flourishing        swls           lie2           lie1     
+ Min.   :4.88   Min.   :4.40   Min.   :1.00   Min.   :1.00  
+ 1st Qu.:5.75   1st Qu.:5.75   1st Qu.:2.29   1st Qu.:2.29  
+ Median :6.00   Median :5.80   Median :2.67   Median :2.50  
+ Mean   :5.98   Mean   :5.91   Mean   :2.68   Mean   :2.63  
+ 3rd Qu.:6.25   3rd Qu.:6.20   3rd Qu.:3.04   3rd Qu.:3.00  
+ Max.   :7.00   Max.   :7.00   Max.   :4.67   Max.   :4.50  
+                                                            
+    diffLie             LxA1           LxA2         diffLxA      
+ Min.   :-0.6670   Min.   :14.7   Min.   :12.8   Min.   :-16.48  
+ 1st Qu.:-0.2085   1st Qu.:21.6   1st Qu.:20.8   1st Qu.: -3.79  
+ Median : 0.0000   Median :25.0   Median :24.2   Median : -1.76  
+ Mean   : 0.0416   Mean   :24.7   Mean   :23.5   Mean   : -1.26  
+ 3rd Qu.: 0.2085   3rd Qu.:26.2   3rd Qu.:27.8   3rd Qu.:  2.67  
+ Max.   : 1.0000   Max.   :33.1   Max.   :29.3   Max.   :  5.17  
                                                                  
+      age            exp           apride         lpride    
+ Min.   :21.0   Min.   :0.00   Min.   :28.0   Min.   :29.0  
+ 1st Qu.:24.0   1st Qu.:2.00   1st Qu.:36.0   1st Qu.:38.0  
+ Median :26.0   Median :3.00   Median :38.0   Median :41.5  
+ Mean   :25.9   Mean   :3.25   Mean   :37.5   Mean   :41.4  
+ 3rd Qu.:28.0   3rd Qu.:4.00   3rd Qu.:39.0   3rd Qu.:46.0  
+ Max.   :31.0   Max.   :8.00   Max.   :46.0   Max.   :49.0  
+                                                            
+      eom         rankindiv         rank21         averank     
+ Min.   :34.0   Min.   : 1.00   Min.   : 1.00   Min.   : 1.50  
+ 1st Qu.:37.0   1st Qu.: 5.75   1st Qu.: 5.75   1st Qu.: 5.88  
+ Median :38.5   Median :10.50   Median :11.00   Median :10.50  
+ Mean   :38.5   Mean   :10.50   Mean   :11.00   Mean   :10.75  
+ 3rd Qu.:40.0   3rd Qu.:15.25   3rd Qu.:16.25   3rd Qu.:16.50  
+ Max.   :43.0   Max.   :20.00   Max.   :21.00   Max.   :20.00  
+                                                               
 ```
 
 Mark's Data
@@ -444,7 +444,7 @@ plot <- ggplot(breach, aes(x=locomotion1))
 plot + geom_histogram()
 ```
 
-![plot of chunk unnamed-chunk-10](session_1_presentation-figure/unnamed-chunk-10-1.png) 
+![plot of chunk unnamed-chunk-10](session_1_presentation-figure/unnamed-chunk-10.png) 
 
 ggplot
 ========================================================
@@ -456,7 +456,7 @@ plot <- ggplot(breach, aes(x=locomotion2))
 plot + geom_histogram()
 ```
 
-![plot of chunk unnamed-chunk-11](session_1_presentation-figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](session_1_presentation-figure/unnamed-chunk-11.png) 
 
 ggplot
 ========================================================
@@ -486,7 +486,7 @@ A different kind of layer:
 plot + geom_dotplot()
 ```
 
-![plot of chunk unnamed-chunk-12](session_1_presentation-figure/unnamed-chunk-12-1.png) 
+![plot of chunk unnamed-chunk-12](session_1_presentation-figure/unnamed-chunk-12.png) 
 
 ggplot
 ========================================================
@@ -524,7 +524,7 @@ plot <- ggplot(breach, aes(x=c(locomotion1, locomotion2)))
 plot + geom_histogram()
 ```
 
-![plot of chunk unnamed-chunk-13](session_1_presentation-figure/unnamed-chunk-13-1.png) 
+![plot of chunk unnamed-chunk-13](session_1_presentation-figure/unnamed-chunk-13.png) 
 
 Eh.  No.
 
@@ -623,38 +623,38 @@ summary(breach)
 ```
 
 ```
-      subj        flourishing         swls           age      
- Min.   : 1.00   Min.   :4.880   Min.   :4.40   Min.   :21.0  
- 1st Qu.: 5.75   1st Qu.:5.750   1st Qu.:5.75   1st Qu.:24.0  
- Median :10.50   Median :6.000   Median :5.80   Median :26.0  
- Mean   :10.50   Mean   :5.976   Mean   :5.91   Mean   :25.9  
- 3rd Qu.:15.25   3rd Qu.:6.250   3rd Qu.:6.20   3rd Qu.:28.0  
- Max.   :20.00   Max.   :7.000   Max.   :7.00   Max.   :31.0  
-                                                              
-      exp           apride          lpride           eom       
- Min.   :0.00   Min.   :28.00   Min.   :29.00   Min.   :34.00  
- 1st Qu.:2.00   1st Qu.:36.00   1st Qu.:38.00   1st Qu.:37.00  
- Median :3.00   Median :38.00   Median :41.50   Median :38.50  
- Mean   :3.25   Mean   :37.45   Mean   :41.35   Mean   :38.45  
- 3rd Qu.:4.00   3rd Qu.:39.00   3rd Qu.:46.00   3rd Qu.:40.00  
- Max.   :8.00   Max.   :46.00   Max.   :49.00   Max.   :43.00  
-                                                               
-   rankindiv         rank21         averank              variable  
- Min.   : 1.00   Min.   : 1.00   Min.   : 1.500   locomotion1: 20  
- 1st Qu.: 5.75   1st Qu.: 5.75   1st Qu.: 5.875   locomotion2: 20  
- Median :10.50   Median :11.00   Median :10.500   assessment1: 20  
- Mean   :10.50   Mean   :11.00   Mean   :10.750   assessment2: 20  
- 3rd Qu.:15.25   3rd Qu.:16.25   3rd Qu.:16.500   promotion1 : 20  
- Max.   :20.00   Max.   :21.00   Max.   :20.000   promotion2 : 20  
-                                                  (Other)    :160  
-     value       
- Min.   : 1.000  
- 1st Qu.: 2.600  
- Median : 3.830  
- Mean   : 6.367  
- 3rd Qu.: 4.830  
- Max.   :33.100  
- NA's   :1       
+      subj        flourishing        swls           age      
+ Min.   : 1.00   Min.   :4.88   Min.   :4.40   Min.   :21.0  
+ 1st Qu.: 5.75   1st Qu.:5.75   1st Qu.:5.75   1st Qu.:24.0  
+ Median :10.50   Median :6.00   Median :5.80   Median :26.0  
+ Mean   :10.50   Mean   :5.98   Mean   :5.91   Mean   :25.9  
+ 3rd Qu.:15.25   3rd Qu.:6.25   3rd Qu.:6.20   3rd Qu.:28.0  
+ Max.   :20.00   Max.   :7.00   Max.   :7.00   Max.   :31.0  
+                                                             
+      exp           apride         lpride          eom      
+ Min.   :0.00   Min.   :28.0   Min.   :29.0   Min.   :34.0  
+ 1st Qu.:2.00   1st Qu.:36.0   1st Qu.:38.0   1st Qu.:37.0  
+ Median :3.00   Median :38.0   Median :41.5   Median :38.5  
+ Mean   :3.25   Mean   :37.5   Mean   :41.4   Mean   :38.5  
+ 3rd Qu.:4.00   3rd Qu.:39.0   3rd Qu.:46.0   3rd Qu.:40.0  
+ Max.   :8.00   Max.   :46.0   Max.   :49.0   Max.   :43.0  
+                                                            
+   rankindiv         rank21         averank             variable  
+ Min.   : 1.00   Min.   : 1.00   Min.   : 1.50   locomotion1: 20  
+ 1st Qu.: 5.75   1st Qu.: 5.75   1st Qu.: 5.88   locomotion2: 20  
+ Median :10.50   Median :11.00   Median :10.50   assessment1: 20  
+ Mean   :10.50   Mean   :11.00   Mean   :10.75   assessment2: 20  
+ 3rd Qu.:15.25   3rd Qu.:16.25   3rd Qu.:16.50   promotion1 : 20  
+ Max.   :20.00   Max.   :21.00   Max.   :20.00   promotion2 : 20  
+                                                 (Other)    :160  
+     value      
+ Min.   : 1.00  
+ 1st Qu.: 2.60  
+ Median : 3.83  
+ Mean   : 6.37  
+ 3rd Qu.: 4.83  
+ Max.   :33.10  
+ NA's   :1      
 ```
 
 Reshaping
