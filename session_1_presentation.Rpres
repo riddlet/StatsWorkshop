@@ -1,0 +1,421 @@
+Stats workshop  
+========================================================
+author: Travis Riddle
+date: 11/25/14
+
+Strategy
+========================================================
+
+Mark gave me his data  I'm going to:
+
+- Load it
+- Get a sense of what it is
+- Make some preliminary visualizations
+
+Material
+========================================================
+
+What does this cover, practically?
+
+- Load data
+- Variable/object types
+- ggplot2
+- Some data reshaping
+
+A quick digression
+========================================================
+
+### Some have asked me about organization
+
+
+- Check out this guide ->
+
+***
+![Guide](Images/Guide.png)
+
+Organization
+========================================================
+
+### Use github!
+
+- Version control
+- Easier to collaborate
+- A new way for people to document their intellectual accomplishments?
+- [My github site](https://github.com/riddlet)
+
+***
+![Octocat](Images/octocat.jpeg)
+
+Organization
+========================================================
+
+### Use R Markdown
+
+- Embed code and images (i.e. plots) directly into a document which also contains prose
+- Write out what you're doing and why
+- Helps ensure that the whole thing runs from start to finish (and avoids confusing code!)
+- It's only a short jump to writing the actual paper.
+- Plus, it makes really beautiful documents.  =)
+- [Like this one](session_1.html)
+
+One more underappreciated point
+========================================================
+
+You will (and should) spend a long time moving data around, and figuring out how to access subsets.  T-tests, anovas, regressions, etc., are only a very small part of what we do, and typically don't come until after a lot of organization work.
+
+(I had no idea!)
+
+***
+
+![I am a doctor!](Images/doctor.png)
+
+Mark's Data
+========================================================
+
+Before loading it in, we need to make sure everything is contained in the same directory, and that this is our current working directory (cwd).  
+
+Session -> Set Working Directory -> To Source File Location
+
+Mark's Data
+========================================================
+
+Read in the data and get some information:
+
+*Note:  Some of the output will look messy because of the limitations of presentations.  See the document for better versions*
+
+```{r}
+breach <- read.csv('Data/breachmeans.csv')
+dim(breach)
+```
+
+Mark's Data
+========================================================
+
+Names of our variables:
+
+```{r}
+names(breach)
+```
+
+Mark's Data
+========================================================
+
+First five rows:
+
+```{r}
+head(breach)
+```
+
+Mark's Data
+========================================================
+
+First five rows:
+
+```{r}
+summary(breach)
+```
+
+Mark's Data
+========================================================
+
+Get the structure:
+
+```{r}
+str(breach)
+```
+
+Question
+========================================================
+1.  We wont always be fortunate enough to have .csv files.  Do you know how to read in excel files?  Spss files?  STATA?  Word?
+
+Question
+========================================================
+1.  We wont always be fortunate enough to have .csv files.  Do you know how to read in excel files?  Spss files?  STATA?  Word?
+
+```
+library(xlsx)
+read.xlsx()
+library(foreign)
+read.spss()
+read.dta()
+```
+Microsoft word is possible (everything is *possible*), but a bit more complicated (see `tm` package)  
+
+Data types
+========================================================
+
+- Sometimes, the difference in type doesn't matter.  Often, however, it does  
+- We previously saw that mark had basically two types of variables:  `numeric` and `integer`  
+ - i.e. quantitative variables  
+- Psychologists also will deal with `factor` and `character` types  
+  - `factor` is a categorical variable  
+  - `character` is a text string (but remember text can also be numbers!)  
+  
+Data types
+========================================================
+
+Create a new variable indicating whether someone is happy:
+
+```{r}
+breach$happy <- rep(c("yes", "no"), each=10)
+breach$happy #there's only 20 observations, so we can just print out all of them.
+str(breach$happy)
+```
+
+Data types
+========================================================
+
+```{r}
+summary(breach$happy)
+```
+
+- `Character` variable?
+  - Just because we fed it a collection of text strings
+  - Probably more accurately described as a categorical variable (thus, `factor`)
+  
+Data types
+========================================================
+
+```{r}
+breach$happy <- as.factor(breach$happy)
+breach$happy 
+str(breach$happy)
+summary(breach$happy)
+```
+
+Data types
+========================================================
+
+```{r}
+summary(breach$happy)
+```
+
+Calling the same function (e.g. `summary`) on the same data can lead to different outputs depending on how that data is *stored and represented*
+
+Questions
+========================================================
+
+Let's say Mark ran a study in which his participants recieved 2, 4, or 8 'happy' primes.  We create a factor     variable which distinguishes these groups:
+  
+    `a <- as.factor(rep(c(2,4,8), each=10))`
+  
+For some purposes, this will be fine.  But let's say for some reason we want to treat this as a numeric value rather than a factor.  We run the following command:
+  
+    `a <- as.numeric(a)`
+  
+What happened?  Did it work as you expected?
+
+Questions
+========================================================
+
+How are factor variables represented internally in R (*hint*:  Why, when we call `str(breach$happy)`, do we get a bunch of numbers)?  What's the logic behind their representation?
+  
+ggplot
+========================================================
+
+Now that I know a bit more about Mark's data, the typical next step would be to create some visualizations to see if I can find any obvious funny business.
+
+Also, interesting patterns.
+
+**Note:** *No hypothesis testing yet!  Look at data!  Spend a lot of time looking at data!*
+
+ggplot
+========================================================
+
+- Lots of Mark's variables have two instances.  
+- Time 1 and time 2?
+- Any change?
+
+ggplot
+========================================================
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+plot <- ggplot(breach, aes(x=locomotion1))
+plot + geom_histogram()
+```
+
+ggplot
+========================================================
+
+
+```{r, warning=FALSE, message=FALSE}
+plot <- ggplot(breach, aes(x=locomotion2))
+plot + geom_histogram()
+```
+
+ggplot
+========================================================
+
+What's going on?
+
+`plot <- ggplot(breach, aes(x=locomotion2))`
+
+Object?  Data?
+
+ggplot
+========================================================
+
+Next line:
+
+`plot + geom_histogram()`
+
+*empty plot + layer*
+
+ggplot
+========================================================
+
+A different kind of layer:
+
+```{r, warning=FALSE, message=FALSE}
+plot + geom_dotplot()
+```
+
+ggplot
+========================================================
+
+These plots aren't really ideal.
+![hist1](Images/hist1.png)
+***
+Why?
+![hist2](Images/hist2.png)
+
+ggplot
+========================================================
+
+1.  Having two separate plots forces us to shift our eyes back and forth between the two.  It would be much better if they were plotted together.
+
+2.  The sparsity of our data leads our histogram to be not-very-smooth.  Kind of chunky looking.  I love chunky peanut butter, but histograms, not so much.
+
+ggplot
+========================================================
+
+The fix?
+
+Plot both variables on the same object.  Let them overlap.  Somehow make it smoother?  A different geom type?
+
+So, two variables on X?  Like this?
+
+    `plot <- ggplot(breach, aes(x=c(locomotion1, locomotion2)))`
+    
+ggplot
+========================================================
+
+```{r, warning=FALSE, message=FALSE}
+plot <- ggplot(breach, aes(x=c(locomotion1, locomotion2)))
+plot + geom_histogram()
+```
+
+Eh.  No.
+
+ggplot
+========================================================
+
+We can pass an argument to ggplot which tells it to separate things by some group.  We can give them different colors: 
+
+    `plot <- ggplot(breach, aes(x=*all.locomotion.scores*, color=*some.grouping.variable*))`
+    
+or different fills:
+
+    `plot <- ggplot(breach, aes(x=*all.locomotion.scores*, fill=*some.grouping.variable*))`
+
+or just let R decide what it thinks is best
+
+    `plot <- ggplot(breach, aes(x=*all.locomotion.scores*, group=*some.grouping.variable*))`
+
+ggplot
+========================================================
+
+So, we need to move things around.  We need:
+
+Two vectors:
+  - Vector 1 = all the values to be plotted on the x axis
+  - Vector 2 = Which group each value in vector 1 belongs to.
+
+To be absolutely concrete, for Mark's data, we're looking for all the locomotion scores to be in vector 1, and vector two to indicate whether each corresponding value in vector 1 is from **time 1** or **time 2**.
+
+Questions
+========================================================
+There are other reasons we might not like the plots we just produced.  For example, maybe we want the bins into which the observations are sorted to be a bit larger.  Can you do this?  What setting do you think produces the best visualization for the data? (*hint*: `?geom_histogram`)
+
+Questions
+========================================================
+In the last plot, the x axis label is horrible.  Change it to something more appropriate. You might find [this](http://docs.ggplot2.org/current/) helpful.
+
+Reshaping
+========================================================
+To obtain the figures we want (and for many other things we might want to do), we need to rearrange mark's data.
+
+It is currently in a *wide* format, and we need it to be in a *long* format.
+
+We can use the `reshape2` package.
+
+Reshaping
+========================================================
+Two main functions in `reshape2`:
+
+To get data from wide to long, we use `melt`
+
+To go from long to wide, we can use one of several versions of `cast`
+
+Reshaping
+========================================================
+```{r}
+library(reshape2)
+breach <- melt(breach, 
+     id.vars = c('subj', 'flourishing', 'swls', 'age', 'exp', 'apride', 
+                 'lpride', 'eom', 'rankindiv', 'rank21', 'averank'),
+     measure.vars = c('locomotion1', 'locomotion2', 'assessment1', 'assessment2', 
+                      'promotion1', 'promotion2', 'prevention1', 'prevention2', 
+                      'stress1', 'stress2', 'lie2', 'lie1', 'LxA1', 'LxA2'))
+```
+
+Reshaping
+========================================================
+```{r}
+str(breach)
+```
+
+Reshaping
+========================================================
+```{r}
+summary(breach)
+```
+
+Reshaping
+========================================================
+We went from 20 observations of 32 variables to 280 observations of 13 variables.  How?  Let's look at what happened:
+
+Step one:  Feed it the data
+
+    `breach <- melt(breach,`
+
+Reshaping
+========================================================
+Step 2:  specify the identifying variables.  In a psych study, these are typically the things which *remain constant for a given subject*
+
+    `id.vars = c('subj', 'flourishing', 'swls', 'age', 'exp', 'apride', 'lpride', 'eom', 'rankindiv', 'rank21', 'averank'),`
+
+Reshaping
+========================================================
+Step 3:  specify the measured variables.  In a psych study, these are typically the things which *will vary within a subject*
+
+    `measure.vars = c('locomotion1', 'locomotion2', 'assessment1', 'assessment2', 'promotion1', 'promotion2', 'prevention1', 'prevention2', 'stress1', 'stress2', 'lie2', 'lie1', 'LxA1', 'LxA2'))`
+    
+Reshaping
+========================================================
+In our new dataframe, everything that we put into 'measure.vars' has been turned into two vectors.  One identifies which column a particular observation come from, and the second gives the value of that observation.
+
+```{r}
+breach[breach$subj == 2,]
+```
+
+Reshaping
+========================================================
+In short, each variable we feed into `measure.vars` now has its own row for each subject.  So, since we fed in 14 variables, each subject now has 14 rows of data.
+
+14 rows per subject * 20 subjects = 280 total rows
+
+```{r}
+dim(breach)
+```

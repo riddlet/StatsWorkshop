@@ -165,7 +165,7 @@ We're going to reshape our data so that we can feed it into ggplot.  Mark's data
 
 In order to get this data from wide to long, we can use the `reshape2` package, created by....yep, that's right.  Our dear friend [Hadley Wickham][ref2].  (I know!  This guy!  Jeez!  Everytime I load one of his packages I think about sending him one of the books on his [amazon wishlist][ref3]).
 
-There are two main functions in the `reshape2` package:  `melt` and `cast`.  The former takes wide data and converts it to long, and the latter does the converse.  We need to our wide data to be long, so we need to use melt.
+There are two main functions in the `reshape2` package:  `melt` and a few different `cast` functions.  The former takes wide data and converts it to long, and the latter does the converse.  We need to our wide data to be long, so we need to use melt.
 
 ```{r}
 library(reshape2)
