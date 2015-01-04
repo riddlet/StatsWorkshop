@@ -7,7 +7,7 @@ output: html_document
 
 Last time, we spent some effort looking at Mark's data.  This time, Maya has been kind enought to donate some of her data for the greater good.  She's already sent me her csv as well as the script she's used for the work.  I'm going to zip through some of her pre-processing first.  I'll stop to highlight a couple of things along the way, though.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 srp <- read.csv('Data/SR.Past.Rel.12.10.14.csv')
 #### EXCLUSIONS ####
 #exclude 5 who copied the Michael text verbatim (exclcopied=1)
@@ -112,6 +112,7 @@ ggplot(srdissolve, aes(x=vrecall)) +
 As far as letting us look at our variables to see if they're normally distributed within these subgroups, this approach works okay.  However, the whole thing could be dramatically simplified, and we could also look to see how these distributions change by group.  This is a similar approach to what we were doing with Mark's data.
 
 ```{r}
+library(ggplot2)
 plot <- ggplot(srp, aes(x=vmessage, color=relprime))
 plot + geom_density()
 ```
@@ -171,7 +172,7 @@ All of these seem to be similar to the overall pattern.  Maybe Dissolved/Dislike
 
 Maya next computes a series of ANOVAs.  
 
-```{r}
+```{r, eval=FALSE}
 ## ONE-WAY ANOVAS: main effects
 sr.att.mess <- aov(vmessage ~ attitudedum, data=srp)
 summary(sr.att.mess) #main effect of attitude
@@ -193,6 +194,68 @@ sr.rel.att.rec <- aov(vrecall ~ attitudedum * relprimedum, data=srp)
 summary(sr.rel.att.rec) #main effect of attitude (interaction ns)
 ```
 
-This is gonna get ugly.  It's time to consider what we're doing here, and how to specify it.
+This is gonna get ugly.  It's time to consider what we're doing here, and how to specify it.  So, what is an ANOVA?
+
+###ANOVA
+It stands for Analysis Of VAriance.  That is, we're taking some observed variability, and figuring out where it comes from.  For simplicity, let's focus on `vmessage`.  I believe this variable reflects the valence of the message that participants produced about someone named *Michael*, which they then sent to someone named *Sam*.  We know that the valence will not be the same for everyone.  Indeed, we've already seen this in some of the plots we've made.  What we'd like to know is where this variability comes from.  
+
+We've set up an experiment in which we think that two manipulations will induce some variance.  Specifically, we've made it such that some participants think that Sam likes Michael, and others think that Sam dislikes Michael.  We've also primed some people to think of either a recently ended relationship or a relationship that is ongoing.  How much of the variability in `vmessage` is due to the contribution of these two manipulations?
+
+We're thinking of these two variables as completely independent from each other.  That is, if we could compute a correlation coefficient between them, it would be exactly zero.  It turns out, we *can* compute a correlation coefficient!  Look at the data:
+
+```{r}
+temp <- data.frame(subj=srp$subj, attitude=as.numeric(srp$attitude), prime=as.numeric(srp$relprime))
+head(temp)
+```
+
+We've assigned numeric values to attitude and prime (for the sake of illustration).  What's the correlation between them?  Well, it isn't zero.  It's `r round(cor(as.numeric(srp$attitude), as.numeric(srp$relprime)), 5)`.  I know, I know.  *Almost*, right?  Well, almost isn't good enough.  We need zero on the dot.
+
+Why does this matter?  Remember that we're trying to explain the variability in `vmessage`.  We'd like to attribute some of that variability to attitude and some to the prime.  Visually, the variability is usually depicted as a geometric box.
+
+![Variance][img1]
+
+If our two variabiles were totally independent, then we could imagine that they each explain some unique portion of that variance.
+
+![Independent][img2]
+
+However, we know that our two variables are *not* independent.  They are related to each other.  So our situation looks a little more like this:
+
+![Correlated][img3]
+
+What this means for our ANOVA is that we need to figure out how to explain all the variance in our box which is taken up by circles.  In particular, what are we to do with the middle bit?  Is it part of Prime?  Part of attitude?  Part of both?  Neither?
+
+The answer to these questions is determined by which Sum of Squares (SS) we select, of which there are three basic types
+
+#### Type I SS
+Type I SS breaks up the estimates sequentially:
+
+1.  SS(Prime)
+2.  SS(Attitude|Prime)
+3.  SS(Prime*Attitude|Prime, Attitude)
+
+In other words, we get all the variance explained by Prime in step 1, then the variance associated with Attitude after we've taken out the .00071 chunk in step 2, and finally, the variance associated with the interaction, after removing Prime and Attitude in step 3 (interactions aren't aren't visualized in the venn diagram, but the idea is the same - just add another circle).
+
+When Maya used `aov()`, she was using type I SS.  We can see this by examining what happens if we switch the order in which we enter the terms:
+
+```{r}
+sr.rel.att.mess <- aov(vmessage ~ attitudedum * relprimedum, data=srp)
+summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
+
+sr.rel.att.mess <- aov(vmessage ~ relprimedum*attitudedum, data=srp)
+summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
+```
+
+The differences are not huge, but they are present.  Note, for example, the change in the F-value for our two main effects.
+
+#### Type II SS
+Type II rectifies some of the weirdness in Type I.  
 
 http://egret.psychol.cam.ac.uk/statistics/R/anova.html
+http://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-sequential-anova-and-manova/20455#20455
+http://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/
+
+
+[img1]: Images/Var.png
+[img2]: Images/indep.png
+[img3]: Images/cor.png
+
