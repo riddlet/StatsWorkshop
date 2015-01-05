@@ -253,6 +253,8 @@ Type II rectifies some of the weirdness in Type I.
 http://egret.psychol.cam.ac.uk/statistics/R/anova.html
 http://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-sequential-anova-and-manova/20455#20455
 http://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/
+http://faculty.nps.edu/sebuttre/home/R/contrasts.html
+http://elderlab.yorku.ca/~elder/teaching/psyc3031/lectures/Lecture%206%20Comparing%20Several%20Means%20-%20ANOVA%20%28GLM%201%29.pdf
 
 
 [img1]: Images/Var.png
