@@ -249,6 +249,42 @@ Type I SS breaks up the estimates sequentially:
 
 In other words, we get all the variance explained by Prime in step 1, then the variance associated with Attitude after we've taken out the .00071 chunk in step 2, and finally, the variance associated with the interaction, after removing Prime and Attitude in step 3 (interactions aren't aren't visualized in the venn diagram, but the idea is the same - just add another circle).
 
+To visualize, in step one, we get all the variance associated with Prime:
+
+```{r}
+library(colorfulVennPlot)
+# I edited some of the source code so that I could change some aspects of 
+# these Venn diagrams I didn't like.  Below, I load in that modified function.
+# I'll make this publicly available either with the rest of this tutorial, or 
+# shortly afterwards.  You can run this with the base package, but the function
+# is plotVenn3d(), and get rid of the printvals argument.
+source('..//modified venn.r') 
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('White', 2), rep('#144256', 2),
+                             'White', '#144256'), 
+                  printvals=F)
+```
+
+
+Then, step two, we take the remaining bit of Attitude:
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2),
+                             'White', '#144256'), printvals=F)
+```
+
+In step three, we just take the remaining variance left in the interaction term:
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2), 
+                             '#88691B', '#144256'), printvals=F)
+```
+
 When Maya used `aov()`, she was using type I SS.  We can see this by examining what happens if we switch the order in which we enter the terms:
 
 ```{r}
@@ -259,13 +295,70 @@ sr.rel.att.mess <- aov(vmessage ~ relprime*attitude, data=srp)
 summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
 ```
 
-The differences are not huge, but they are present.  Note, for example, the change in the F-value for our two main effects.
+The differences are not huge, but they are present.  Note, for example, the change in the F-value for our two main effects.  As you can guess, this is not typically what we want when examining an experiment like the one Maya ran.  We usually think of main effects as 'the influence of $IV_1$, holding $IV_2$ constant (sometimes said, 'Influence of $IV_1$, accounting for $IV_2$).
 
 #### Type II SS
-Type II resolves this issue, in a fashion.  It gives us the estimates, while controlling for the other variable.  That is:
- *SS(Prime | Attitude)
- *SS(Attitude | Prime)
- *SS(Prime * Attitude | Prime, Attitude)
+Type II resolves this issue, in a fashion.  It gives us the estimates, while controlling for the other variable.  That is:  
+
+ - SS(Prime | Attitude)  
+ - SS(Attitude | Prime)  
+ - SS(Prime * Attitude | Prime, Attitude)  
+
+Let's revisit the those plots of variance accounted for:
+
+```{r, message=FALSE}
+library(colorfulVennPlot)
+source('..//modified venn.r')
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 7)), printvals=F)
+```
+
+Now we have a visual representation of our full model.  Now, let's look at what portion of the variance is explained by each of our terms.  First, *SS(Prime | Attitude)*
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('White', 2), '#144256', rep('White', 3) ), printvals=F)
+```
+
+In plain terms, you can say that we've estimated the amount of total variance accounted for in Prime, removing the variance associated with attitude.  Next *SS(Attitude | Prime)*
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), '#144256', rep('White', 3) ), printvals=F)
+```
+
+Again, in plain terms, we've estimated the amount of total variance accounted for in Attitude, removing the variance associated with Prime.  Finally, *SS(Prime * Attitude | Prime, Attitude)
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), '#144256', 'White', 
+                             '#88691B', 'White'), printvals=F)
+```
+
+Here, we've estimated the amount of variance accounted for by the Prime*Attitude interaction, removing the variance associated with the main effects of Prime and Attitude.  
+
+Why would we want to do this?  Well, as you can see, it gives a lot of power to detect any main effects that might be present, as a large portion of the main effect circles are colored.  However, some of that area is eating into the interaction.  That is, you're saying that you'd rather spend that area detecting a main effect than detecting an interaction.  If this is true, then why are you bothering modeling an interaction in the first place?  If you use type II SS and get a significant interaction term, then that should lead you to question what that means for your main effects, because it isn't clear what to do with the bits that overlap with the interaction term  (should they be part of the interaction?  The main effect?  neither?).
+
+In practice, type II SS are almost never used because of this issue with what's going on in the interaction term.  Some people advocate using this when there's no interaction present, because it gives you better power to detect main effects, but (I think that) this is a relatively small group.
+
+To do a type II in R, we should use the `car` package.  There ~~might be~~ is a way to do it without, but I don't know it, it's probably a bit more complicated:
+
+```{r}
+library(car)
+sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
+summary(sr.rel.att.mess)
+a.sr<-Anova(sr.rel.att.mess, type=2)
+a.sr
+```
+
+It's interesting to note here that the outcome for the two main effects are the same as if we had taken the estimates in step 2 from each of our type I anovas.  One can think about that visually too.  This makes sense, because step 2 in type I anova is the effect of a particular IV, controlling/accounting for the variability in the other one.
+
+#### Type III SS
+
 
 http://egret.psychol.cam.ac.uk/statistics/R/anova.html
 http://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-sequential-anova-and-manova/20455#20455
