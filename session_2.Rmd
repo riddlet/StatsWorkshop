@@ -222,7 +222,15 @@ temp <- data.frame(subj=srp$subj, attitude=as.numeric(srp$attitude),
 head(temp)
 ```
 
-We've assigned numeric values to attitude and prime (for the sake of illustration).  What's the correlation between them?  Well, it isn't zero.  It's `r round(cor(as.numeric(srp$attitude), as.numeric(srp$relprime)), 5)`.  I know, I know.  *Almost*, right?  Well, almost isn't good enough.  We need zero on the dot.
+
+We've assigned numeric values to attitude and prime (for the sake of illustration) via `as.numeric()`.  We then put them in a new dataframe called `temp` and looked at the first few rows with `head()`.  What's the correlation between them?  Well, it isn't zero.  
+
+```{r}
+cor(as.numeric(srp$attitude), as.numeric(srp$relprime))
+```
+
+
+It's `r round(cor(as.numeric(srp$attitude), as.numeric(srp$relprime)), 5)`.  I know, I know.  *Almost*, right?  Well, almost isn't good enough.  We need zero on the dot.
 
 Why does this matter?  Remember that we're trying to explain the variability in `vmessage`.  We'd like to attribute some of that variability to attitude and some to the prime.  Visually, the variability is usually depicted as a geometric box.
 
@@ -247,17 +255,17 @@ Type I SS breaks up the estimates sequentially:
 2.  SS(Attitude | Prime)
 3.  SS(Prime*Attitude | Prime, Attitude)
 
-In other words, we get all the variance explained by Prime in step 1, then the variance associated with Attitude after we've taken out the .00071 chunk in step 2, and finally, the variance associated with the interaction, after removing Prime and Attitude in step 3 (interactions aren't aren't visualized in the venn diagram, but the idea is the same - just add another circle).
+In other words, we get all the variance explained by Prime in step 1, then the variance associated with Attitude after we've taken out the .00071 chunk in step 2, and finally, the variance associated with the interaction, after removing Prime and Attitude in step 3.  Below, I've included the interaction term.  I left it out above for pedagogical reasons, but it works in the same way.
 
 To visualize, in step one, we get all the variance associated with Prime:
 
-```{r}
+```{r, message=FALSE}
 library(colorfulVennPlot)
 # I edited some of the source code so that I could change some aspects of 
 # these Venn diagrams I didn't like.  Below, I load in that modified function.
 # I'll make this publicly available either with the rest of this tutorial, or 
 # shortly afterwards.  You can run this with the base package, but the function
-# is plotVenn3d(), and get rid of the printvals argument.
+# is plotVenn3d(), and get rid of the `printvals` argument.
 source('..//modified venn.r') 
 plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
@@ -288,17 +296,16 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 When Maya used `aov()`, she was using type I SS.  We can see this by examining what happens if we switch the order in which we enter the terms:
 
 ```{r}
-sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
-summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
-
-sr.rel.att.mess <- aov(vmessage ~ relprime*attitude, data=srp)
-summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
+sr.rel.att.mess1 <- aov(vmessage ~ attitude * relprime, data=srp)
+sr.rel.att.mess2 <- aov(vmessage ~ relprime * attitude, data=srp)
+summary(sr.rel.att.mess1) #main effect of attitude (interaction ns)
+summary(sr.rel.att.mess2) #main effect of attitude (interaction ns)
 ```
 
 The differences are not huge, but they are present.  Note, for example, the change in the F-value for our two main effects.  As you can guess, this is not typically what we want when examining an experiment like the one Maya ran.  We usually think of main effects as 'the influence of $IV_1$, holding $IV_2$ constant (sometimes said, 'Influence of $IV_1$, accounting for $IV_2$).
 
 #### Type II SS
-Type II resolves this issue, in a fashion.  It gives us the estimates, while controlling for the other variable.  That is:  
+Type II resolves this issue, in a fashion.  It gives us the estimates for each main effect, while controlling for the other main effect(s).  That is:  
 
  - SS(Prime | Attitude)  
  - SS(Attitude | Prime)  
@@ -330,7 +337,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
                   Colors = c('#144256', rep('#88301B', 2), '#144256', rep('White', 3) ), printvals=F)
 ```
 
-Again, in plain terms, we've estimated the amount of total variance accounted for in Attitude, removing the variance associated with Prime.  Finally, *SS(Prime * Attitude | Prime, Attitude)
+Again, in plain terms, we've estimated the amount of total variance accounted for in Attitude, removing the variance associated with Prime.  Finally, *SS(Prime * Attitude | Prime, Attitude)*
 
 ```{r}
 plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
@@ -345,12 +352,11 @@ Why would we want to do this?  Well, as you can see, it gives a lot of power to 
 
 In practice, type II SS are almost never used because of this issue with what's going on in the interaction term.  Some people advocate using this when there's no interaction present, because it gives you better power to detect main effects, but (I think that) this is a relatively small group.
 
-To do a type II in R, we should use the `car` package.  There ~~might be~~ is a way to do it without, but I don't know it, it's probably a bit more complicated:
+To do a type II in R, we should use the `Anova()` function from the `car` package.  There ~~might be~~ is a way to do it without, but I don't know it, it's probably a bit more complicated:
 
 ```{r}
 library(car)
 sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
-summary(sr.rel.att.mess)
 a.sr<-Anova(sr.rel.att.mess, type=2)
 a.sr
 ```
@@ -358,13 +364,113 @@ a.sr
 It's interesting to note here that the outcome for the two main effects are the same as if we had taken the estimates in step 2 from each of our type I anovas.  One can think about that visually too.  This makes sense, because step 2 in type I anova is the effect of a particular IV, controlling/accounting for the variability in the other one.
 
 #### Type III SS
+Type III SS is, historically, the most commonly used in psychology (e.g. the default in SPSS, SAS, & STATA).  This is because we're most typically interested in the effect of every term in our model, controlling for the others.  In our current example:
 
+ - SS(Prime | Attitude, Prime * Attitude)  
+ - SS(Attitude | Prime, Prime * Attitude)  
+ - SS(Prime * Attitude | Prime, Attitude) 
+ 
+This differs from type II SS because we're now only interested in the bit of variance explained that is *unique* to each particular term.  Visually:
+
+*SS(Prime | Attitude, Prime * Attitude)*
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 3), '#144256', rep('White', 3) ), 
+                  printvals=F)
+```
+
+You can see that we're only interested in those pieces of the variance that we are *sure* belong to Prime.  Same for *SS(Prime | Attitude, Prime * Attitude)*:
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 2), '#88301B', '#144256',
+                             rep('White', 3)), printvals=F)
+```
+
+Finally, the same holds true for the interaction term, *SS(Prime * Attitude | Attitude, Prime)*:
+
+```{r}
+plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 2), '#88301B', '#144256',
+                             'White', '#88691B', 'White'), printvals=F)
+```
+
+What's the advantage of this approach?  
+
+Well, for one thing, it is relatively conservative.  That is, since we're only looking at the variance that is explained by our model in an unambiguous way, there will never be any confusion over whether some main effect that we're seeing is real, or is actually part of an interaction term (like could potentially happen in type II).  In other words, with type II, we are biased toward detecting main effects, at the expense of detecting any interaction.  This can be especially problematic when the interaction is exactly what is causing the main effect!  A set of results like this, for instance:
+
+```{r}
+y<-c(2, 2, 3, 8) #fake means
+x<-c('A', 'B', 'A', 'B') # IV 1
+z<-c('C', 'C', 'D', 'D') # IV 2
+df.plot<-data.frame(x, y, z) # put them in a data frame
+plot <- ggplot(df.plot, aes(x=x, y=y, group=z, color=z))
+  plot + geom_point(size=7)+
+  geom_line()
+```
+
+If our data looked like this, and we used a type II sums of squares, we would be more likely to interpret what is clearly an interaction (i.e. x influences Y, but only if you're in category D) as a main effect (i.e. Y is higher for category B than category A).
+
+Note, by the way, that many of these problems just don't exist if we **LOOK AT OUR DATA**, and use hypothesis testing as a way of confirming what we already suspect is happening.  At any rate, how do we go about conducting a type III test in R?  There's one additional step in comparison to the type II.
+
+You see, R is pretty good about automatically handling factors.  This means that we don't typically have to take the extra step of making contrasts (i.e. dummy coded) versions of our variables, as R does it for us.  In order to do this, R relies on a set of internal functions.  As you may or may not remember from some other statistics class, there are any number of ways to create contrasts.  R has some default way of doing it that depends on what kind of factor you're feeding it:
+
+```{r}
+getOption('contrasts')
+```
+
+R has two types of factors - *unordered*, such as the one's we're dealing with here, and *ordered*, like you might see when administering High, Medium, and Low dosages of a drug.  The above tells us that unordered factors are contrasted using the contr.treatment function, and ordered are contrasted using the contr.poly function.
+
+Let's see how our two variables are coded with the current settings:
+
+```{r}
+with(srp, contrasts(attitude))
+with(srp, contrasts(relprime))
+```
+
+We get a pretty straightforward dummy variable coding.  This works for regression, but when running an ANOVA, we should use effects coding (e.g. making sure the values sum to zero).  The reasoning behind this should probably be saved for a different workshop, but we can easily set it so that this is what we get in R:
+
+```{r}
+options(contrasts=c('contr.sum', 'contr.poly'))
+with(srp, contrasts(relprime))
+```
+
+Note that we're feeding the contrast options two different values - one for contr.sum, and one for contr.poly.  These two values correspond to the two functions used for unordered and ordered factor variable types, respectively.
+
+Once we've done this, we can proceed as we did for a type II, except this time we specify that we are interested in the type III SS:
+
+```{r}
+sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
+a.sr<-Anova(sr.rel.att.mess, type=3)
+a.sr
+```
+
+Note that all of this stuff about different sums of squares is really only relevant for unbalanced designs (i.e. differenct observations in different cells).  If you've got a balanced design, then all three methods will give you the same answer, because then your IVs are not correlated, and there's no issue with determinging what variance each variable is explaining.
+
+###Recap
+
+##### Look at your data!
+
+Really can't emphasize this enough.
+
+##### The 3 flavors of sums of squares
+
+*Type I* is sequential.  The estimates you get will depend on the order in which you neter the terms.
+
+*Type II* is biased towards detecting main effects at the expense of interactions, but has more power to do so
+
+*Type III* does not have the bias present in type II, but has the disadvantage of having the least power of any of them (i.e. is the most conservative).  You will almost always be expected to run a type III.
 
 http://egret.psychol.cam.ac.uk/statistics/R/anova.html
 http://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-sequential-anova-and-manova/20455#20455
 http://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/
 http://faculty.nps.edu/sebuttre/home/R/contrasts.html
 http://elderlab.yorku.ca/~elder/teaching/psyc3031/lectures/Lecture%206%20Comparing%20Several%20Means%20-%20ANOVA%20%28GLM%201%29.pdf
+http://www.uta.edu/faculty/sawasthi/Statistics/stglm.html
 
 
 [img1]: Images/Var.png
