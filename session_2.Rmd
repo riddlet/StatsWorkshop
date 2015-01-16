@@ -81,7 +81,7 @@ srp <- rename(srp, c(DO.BR.FL_20="attitude")) #like=2, dislike=1
 
 The first place I'll stop is here.  Maya is creating a couple of new variables, both coded as zero and one.
 
-```{r, echo=FALSE, eval=FALSE}
+```{r, eval=FALSE}
 
 # dummy coding manipulations
 srp$relprimedum[srp$relprime == "Stable Relationship Priming"] <- 0
