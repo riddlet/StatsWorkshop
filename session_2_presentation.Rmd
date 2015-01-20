@@ -224,7 +224,7 @@ Why do we plot?  To answer questions about the data..
 >     - Basically.
 > - Difference between like & dislike? 
 >     - Hard to tell...
-Hard to tell...
+
 
 ## Subset & Plot
 We can kill three birds with one stone here by:
@@ -283,3 +283,240 @@ with(srp[srp$relprime == 'Dissolved Relationship Priming',],
 
 ## Check the data
 So we saw that nine people selected the .5 option for that group.  This is certainly a lot, but I don't feel like it suggests that anything fishy is going on.
+
+## Check the data
+In Maya's original script, we next examined a correlation coefficient for the relationship between vrecall and vmessage
+
+>  - Why?
+>      - Presumably, because we're interested in the relationship
+
+
+## Check the data {.smaller}
+
+```{r}
+cor.test(srstable$vmessage, srstable$vrecall) 
+```
+
+## Check the data {.smaller}
+
+```{r}
+cor.test(srdissolve$vmessage, srdissolve$vrecall) 
+```
+
+## Check the data
+
+>  - What do we know?
+>      - The data are significantly correlated.
+>  - What do we not know?
+>      - The nature of the correlation (i.e. what is the relationship?)
+
+## Check the data {.smaller}
+
+```{r fig.width=5, fig.height=4, warning=FALSE, fig.align='center', echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG('Images/Anscombe.png')
+grid.raster(img)
+```
+
+>  - All four datasets have the same correlation.
+>  - If we want to know about the relationship, we need to look at the data
+
+## Check the data {.smaller}
+
+Clear, strong, and positive relationship.  No funny business.
+```{r, fig.height=3.5}
+plot <- ggplot(srp, aes(x=vmessage, y=vrecall))
+plot + geom_point(position=position_jitter())
+```
+
+Does this relationship differ by condition?
+
+## Check the data {.smaller}
+
+```{r, fig.height=3.5, fig.width=6}
+plot <- ggplot(srp, aes(x=vmessage, y=vrecall))
+plot + geom_point(position=position_jitter()) + facet_grid(attitude~relprime)
+```
+
+No difference in relationship, but there might be something else....
+
+## Testing for inference with ANOVA {.smaller}
+
+At this point, Maya computes a series of ANOVAs.  For example:
+```{r}
+## ONE-WAY ANOVAS: main effects
+sr.att.mess <- aov(vmessage ~ attitudedum, data=srp)
+summary(sr.att.mess) #main effect of attitude
+
+sr.rel.mess <- aov(vmessage ~ relprimedum, data=srp)
+summary(sr.rel.mess) #ns
+```
+
+## Testing for inference with ANOVA {.smaller}
+```{r}
+sr.rel.att.mess <- aov(vmessage ~ attitudedum * relprimedum, data=srp)
+summary(sr.rel.att.mess) #main effect of attitude (interaction ns)
+```
+
+## Testing for inference with ANOVA
+
+>  - This is one area where R simultaneously shines and is immensely frustrating to new users.
+>  - Shines?
+>      - Extremely flexible.
+>      - You become intimately acquainted with precisely what you're doing with an ANOVA
+>  - Frustrating
+>      - You can't really 'plug and play'
+>      - Easier to do something other than what you want (sometimes without realizing!)
+
+## Testing for inference with ANOVA
+
+Should the results of these two differ?
+
+```{r}
+m.1<-aov(vmessage ~ attitudedum * relprimedum, data=srp)
+m.2<-aov(vmessage ~ relprimedum * attitudedum, data=srp)
+```
+
+## Testing for inference with ANOVA {.smaller}
+
+Ah, but they do!
+```{r}
+summary(m.1)
+summary(m.2)
+```
+
+##  ANOVA
+
+Taking a step back, what are we doing with ANOVAs?
+
+>  - **Anova** - **AN**alysis **O**f **VA**riance.
+>      - Take some observed variability and analyze where it comes from.
+
+>  - We have variability in `vmessage` - the valence of a message about *Micheal* participants sent to someone named *Sam*.
+>  - Tory Higgins' "saying is believing" paradigm
+
+##  ANOVA
+
+>  - Where does the variability in `vmessage` come from?
+>  - Partly from chance variation between people
+>  - Partly because we've set up an experiment designed to induce variation.
+>      - Some participants think that *Sam* likes *Michael*.  Others think (s)he doesn't.
+>      - Some participants have been primed to think of a recently ended relationship.  Others were primed to think of an ongoing relationship.
+>  - How much comes of the variability comes from chance, and how much from our manipulations?  And, between our manipulations, how much comes from manipulation of attitude vs. manipulation of relationship prime?
+
+##  ANOVA
+
+>  - This way of framing makes it seem like our manipulations are independent of each other.
+>      - In other words, there's no relationship between our manipulation of attitude and our manipulation of the prime.
+>          - if we could compute a correlation between our independent variables, it would be exactly zero!
+>  - Surely this is what we meant to do.  But is it what we have *actually done*?
+>  - Turns out, we can compute a correlation coefficient!
+
+## ANOVA {.smaller}
+1.  Assign numeric values to attitude and prime (for the sake of illustration) via `as.numeric()`
+2.  Put these values into a new dataframe called `temp` and look at the first few rows with `head()`.
+```{r}
+temp <- data.frame(subj=srp$subj, attitude=as.numeric(srp$attitude), 
+                   prime=as.numeric(srp$relprime))
+head(temp)
+```
+
+>  - What's the correlation?
+>  - ! 0
+>  - that was a little programming joke....
+
+##  ANOVA
+
+```{r}
+cor(as.numeric(srp$attitude), as.numeric(srp$relprime))
+```
+
+Close, but no cigar...
+
+##  ANOVA & balance
+
+This means we have what is commonly referred to as an 'unbalanced design'.
+
+We have different numbers of observations in each of our 4 experimental cells.
+
+Why would this matter?
+
+##  This is the observed variability {.smaller}
+
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
+library(png)
+library(grid)
+img <- readPNG('Images/Var.png')
+grid.raster(img)
+```
+
+>  - If our two variables are completely independent (i.e. uncorrelated) then they would each explain a unique portion of this observed variability
+
+##  Our imaginary uncorrelated manipulations {.smaller}
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
+library(png)
+library(grid)
+img <- readPNG('Images/indep.png')
+grid.raster(img)
+```
+
+>  - However, our two manipulations *aren't* inependent.  They're related to each other, so we get something different
+
+##  Our actual, correlated manipulations {.smaller}
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
+library(png)
+library(grid)
+img <- readPNG('Images/Cor.png')
+grid.raster(img)
+```
+
+>  - With regards to ANOVA, this means that we know that our experiment is responsible for all the variance taken up by the circles.
+>  - The difficulty lies in the middle bit.  Which variable is it part of?
+
+## Unbalanced Anovas
+
+>  - We've inadvertently set up a situation in which our manipulations are fighting to explain the same piece of the variance lasagna.
+>  - The question of what to do with this shared piece is answered by how we choose to allocate our Sums of squares.
+>  - 3 types
+>      - Type I SS ('sequential')
+>      - Type II SS ('heirarchical')
+>      - Type III SS ('marginal')
+
+## Type I SS
+
+>  - Breaks up the estimation sequentially
+>      1. SS(Prime)
+>      2. SS(Attitude | Prime)
+>      3. SS(Prime * Attitude | Prime, Attitude)
+
+>  - Let's visualize this
+
+## Step One: get the variance associated with Prime
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5} 
+source('..//colorfulVennPlot/R/plotVenn3d.R')  #load in my modified version
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('White', 2), rep('#144256', 2),
+                             'White', '#144256'), 
+                  printvals=F)
+```
+
+## Step Two: Get the remaining bit of Attitude
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2),
+                             'White', '#144256'), printvals=F)
+```
+
+## Step Three: Take the remaining variance left in the interaction term
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2), 
+                             '#88691B', '#144256'), printvals=F)
+```
