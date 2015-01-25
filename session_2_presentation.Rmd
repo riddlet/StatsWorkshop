@@ -18,7 +18,7 @@ Today, Maya has been nice enough to donate her data to the cause.  We're going t
 
 ## Material
 
-Practically, we're going to rehash some of the stuff from last time.  As far as R is concerned, I don't think thre's anything in here that isn't stuff we didn't cover last time, but feel free to stop me with questions.
+Practically, we're going to rehash some of the stuff from last time.  As far as R is concerned, I don't think there's anything in here that isn't stuff we didn't cover last time, but feel free to stop me with questions.
 
 ## Load in Data
 
@@ -520,3 +520,190 @@ plotVenn3d(c(10, 10, 10, 10, 10, 10, 10),
                   Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2), 
                              '#88691B', '#144256'), printvals=F)
 ```
+
+## Type I in R
+
+>  - When we use `aov` with the default values, we are computing a type I SS
+>  - We can see this by switching the order in which we enter our terms
+
+```{r}
+sr.rel.att.mess1 <- aov(vmessage ~ attitude * relprime, data=srp)
+sr.rel.att.mess2 <- aov(vmessage ~ relprime * attitude, data=srp)
+```
+
+
+## Type I in R {.smaller}
+
+```{r}
+summary(sr.rel.att.mess1)
+summary(sr.rel.att.mess2)
+```
+
+##Type II SS
+
+>  - Accounts for independent contribution of variables, but *ignores interactions*
+>      1. SS(Prime | Attitude)
+>      2. SS(Attitude | Prime)
+>      3. SS(Prime * Attitude | Prime, Attitude)
+
+## Step One:  Get the variance associated with Prime, independent of Attitude
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('White', 2), '#144256', rep('White', 3) ), printvals=F)
+```
+
+## Step Two:  Get the variance associated with Attitude, independent of Prime
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), '#144256', rep('White', 3) ), printvals=F)
+```
+
+## Step Three:  Variance for the interaction, less that from main effects
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c('#144256', rep('#88301B', 2), '#144256', 'White', 
+                             '#88691B', 'White'), printvals=F)
+```
+
+## Type II:
+
+>  - Increased power to detect main effects
+>  - You're kind of saying that the interaction isn't important (area which could be used to estimate interaction is instead used to estimate the main effects)
+>      - (If that's true, why are you modeling the interaction in the first place?)
+
+## Type II in R
+
+Take advantage of the `Anova` function from the `car` package
+
+```{r}
+library(car)
+sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
+a.sr<-Anova(sr.rel.att.mess, type=2)
+```
+
+## Type II in R
+
+Note that the numbers for the two main effects are the same as if we had taken the estimates in step two from each of the type I anovas.
+
+```{r}
+a.sr
+```
+
+## Type III SS
+
+>  - Historically, the most commonly used in psych
+>  - The best fit with our usual hypotheses
+>      - 'Holding all other variables constant, is there an effect of Prime?'
+>      1. SS(Prime | Attitude, Prime * Attitude)
+>      2. SS(Attitude | Prime, Prime * Attitude)
+>      3. SS(Prime * Attitude | Prime, Attitude)
+> - We're now interested in *unique* variance
+
+## Step One:  Get the variance uniquely associated with Prime
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 3), '#144256', rep('White', 3) ), 
+                  printvals=F)
+```
+
+## Step Two:  Get the variance uniquely associated with Attitude
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 2), '#88301B', '#144256',
+                             rep('White', 3)), printvals=F)
+```
+
+## Step Three:  Get the variance uniquely associated with the Prime*Attitude interaction
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
+                  labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
+                  Colors = c(rep('White', 2), '#88301B', '#144256',
+                             'White', '#88691B', 'White'), printvals=F)
+```
+
+## Type III:
+
+>  - Conservative
+>      - Not likely to say that there's a main effect of A when there's actually a main effect of B
+>      - Not likely to say that there's a main effect of A or B when there's really an interaction of A * B
+
+## Illustration {.smaller}
+
+```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5}
+y<-c(2, 2, 3, 8) #fake means
+x<-c('A', 'B', 'A', 'B') # IV 1
+z<-c('C', 'C', 'D', 'D') # IV 2
+df.plot<-data.frame(x, y, z) # put them in a data frame
+plot <- ggplot(df.plot, aes(x=x, y=y, group=z, color=z))
+  plot + geom_point(size=7)+
+  geom_line()
+```
+
+>  - This is clearly an interaction (x influences y, but only for category D)
+>  - Type II would bias us toward finding a main effect instead of an interaction
+>      - i.e. Y is higher for category B than category A
+>      - note that this is *true*, but is not really an accurate description of the data
+
+## Type III in R
+
+>  - One additional step in comparison to type II
+>  - As previously pointed out, we typically don't worry too much about factors, as R does the dirty work of creating contrasts for us.
+>  - There are a number of ways to create contrasts.
+>  - By default, R creates contrasts using one of two functions
+
+## Type III in R
+
+```{r}
+getOption('contrasts')
+```
+
+## Type III in R {.smaller}
+
+```{r}
+with(srp, contrasts(attitude))
+with(srp, contrasts(relprime))
+```
+
+A straightforward dummy coding.  This is great for regression, but a type III ANOVA demands effects coding (i.e. make sure they sum to zero).
+
+## Type III in R
+
+```{r}
+# feed contrast TWO values -  one for unordered and one for 
+# ordered factors
+options(contrasts=c('contr.sum', 'contr.poly')) 
+with(srp, contrasts(relprime))
+```
+
+Then we can proceed almost just the same as a type II, but specifying that we want type III
+
+## Type III in R
+
+```{r}
+sr.rel.att.mess <- aov(vmessage ~ attitude * relprime, data=srp)
+a.sr<-Anova(sr.rel.att.mess, type=3)
+a.sr
+```
+
+## One final note
+
+All of this business about different SS is only applicable to occasions when you have a different number of observations in your experimental cells.  If you've got balanced data, then you'll get the same answer regardless of which type you use.
+
+## Recap
+
+>  - **Look at your data!**
+>  - 3 flavors of sums of squares
+>      - Type I is sequential.  Estimates depend on the order in which you enter the terms
+>      - Type II is biased toward detecting main effects at the expense of interactions
+>      - Type III does not have the bias present in type II, but has the least power of any of them.

@@ -260,14 +260,10 @@ In other words, we get all the variance explained by Prime in step 1, then the v
 To visualize, in step one, we get all the variance associated with Prime:
 
 ```{r, message=FALSE}
-library(colorfulVennPlot)
-# I edited some of the source code so that I could change some aspects of 
-# these Venn diagrams I didn't like.  Below, I load in that modified function.
-# I'll make this publicly available either with the rest of this tutorial, or 
-# shortly afterwards.  You can run this with the base package, but the function
-# is plotVenn3d(), and get rid of the `printvals` argument.
-source('..//modified venn.r') 
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+# Note I'm using a modified version of the colorfulVennPlot package.
+# The modified package can be found on my github page.
+source('..//colorfulVennPlot/R/plotVenn3d.R')
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('White', 2), rep('#144256', 2),
                              'White', '#144256'), 
@@ -278,7 +274,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 Then, step two, we take the remaining bit of Attitude:
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2),
                              'White', '#144256'), printvals=F)
@@ -287,7 +283,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 In step three, we just take the remaining variance left in the interaction term:
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('#88301B', 2), rep('#144256', 2), 
                              '#88691B', '#144256'), printvals=F)
@@ -314,9 +310,7 @@ Type II resolves this issue, in a fashion.  It gives us the estimates for each m
 Let's revisit the those plots of variance accounted for:
 
 ```{r, message=FALSE}
-library(colorfulVennPlot)
-source('..//modified venn.r')
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c(rep('White', 7)), printvals=F)
 ```
@@ -324,7 +318,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 Now we have a visual representation of our full model.  Now, let's look at what portion of the variance is explained by each of our terms.  First, *SS(Prime | Attitude)*
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('White', 2), '#144256', rep('White', 3) ), printvals=F)
 ```
@@ -332,7 +326,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 In plain terms, you can say that we've estimated the amount of total variance accounted for in Prime, removing the variance associated with attitude.  Next *SS(Attitude | Prime)*
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('#88301B', 2), '#144256', rep('White', 3) ), printvals=F)
 ```
@@ -340,7 +334,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 Again, in plain terms, we've estimated the amount of total variance accounted for in Attitude, removing the variance associated with Prime.  Finally, *SS(Prime * Attitude | Prime, Attitude)*
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('#88301B', 2), '#144256', 'White', 
                              '#88691B', 'White'), printvals=F)
@@ -375,7 +369,7 @@ This differs from type II SS because we're now only interested in the bit of var
 *SS(Prime | Attitude, Prime * Attitude)*
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c(rep('White', 3), '#144256', rep('White', 3) ), 
                   printvals=F)
@@ -384,7 +378,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 You can see that we're only interested in those pieces of the variance that we are *sure* belong to Prime.  Same for *SS(Prime | Attitude, Prime * Attitude)*:
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c(rep('White', 2), '#88301B', '#144256',
                              rep('White', 3)), printvals=F)
@@ -393,7 +387,7 @@ plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10),
 Finally, the same holds true for the interaction term, *SS(Prime * Attitude | Attitude, Prime)*:
 
 ```{r}
-plotVenn3d.novals(c(10, 10, 10, 10, 10, 10, 10), 
+plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c(rep('White', 2), '#88301B', '#144256',
                              'White', '#88691B', 'White'), printvals=F)
@@ -464,14 +458,6 @@ Really can't emphasize this enough.
 *Type II* is biased towards detecting main effects at the expense of interactions, but has more power to do so
 
 *Type III* does not have the bias present in type II, but has the disadvantage of having the least power of any of them (i.e. is the most conservative).  You will almost always be expected to run a type III.
-
-http://egret.psychol.cam.ac.uk/statistics/R/anova.html
-http://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-sequential-anova-and-manova/20455#20455
-http://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/
-http://faculty.nps.edu/sebuttre/home/R/contrasts.html
-http://elderlab.yorku.ca/~elder/teaching/psyc3031/lectures/Lecture%206%20Comparing%20Several%20Means%20-%20ANOVA%20%28GLM%201%29.pdf
-http://www.uta.edu/faculty/sawasthi/Statistics/stglm.html
-
 
 [img1]: Images/Var.png
 [img2]: Images/indep.png
