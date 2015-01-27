@@ -20,6 +20,29 @@ Today, Maya has been nice enough to donate her data to the cause.  We're going t
 
 Practically, we're going to rehash some of the stuff from last time.  As far as R is concerned, I don't think there's anything in here that isn't stuff we didn't cover last time, but feel free to stop me with questions.
 
+## A brief point about outliers
+
+>  - What do I do with my outliers?
+>  - A few options:
+>     - exclude
+>     - ignore
+>     - run analyses with and without
+
+>  - As far as I can tell, this seems to be a matter of preference/what your advisor did.
+
+## Outliers
+
+>  - I'm going to argue for a specific approach
+>  - Think about *why* that outlier is an outlier
+
+## This?
+
+![typo](Images/typo.jpg)
+
+## Or this?
+
+![tasty](Images/outlierburger.jpg)
+
 ## Load in Data
 
 In Maya's R script, she first loads in her data:
@@ -445,8 +468,6 @@ Why would this matter?
 ##  This is the observed variability {.smaller}
 
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
-library(png)
-library(grid)
 img <- readPNG('Images/Var.png')
 grid.raster(img)
 ```
