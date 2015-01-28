@@ -1,7 +1,7 @@
 ---
 title: "Stats Workshop 2.0"
 author:  Travis Riddle
-Date: 1/XX/2015
+Date: 1/28/2015
 output: 
   ioslides_presentation
 ---
