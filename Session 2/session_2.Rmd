@@ -3,12 +3,27 @@ title: "Session 2"
 output: html_document
 ---
 
+Last time, we spent some effort looking at Mark's data.  This time, Maya has been kind enought to donate some of her data for the greater good.  She's already sent me her csv as well as the script she's used for the work.  I'm going to zip through some of her pre-processing first.  I'll stop to highlight a couple of things along the way, though.  We're doing all this with the objective of describing how to plot to find relationships (both how to do it and what to look for) as well as how to run a basic ANOVA and what doing such a thing means.  But first, a word about outliers.
+
+### Outliers
+There seems to be a fair amount of ambiguity around how an analyst ought to deal with outliers.  In particular, there are a few options which are often suggested:
+
+1.  Exclude them.
+2.  Ignore that they exist.
+3.  Run analyses with and without and pray that it doesn't make any difference.
+
+None of these are wrong, *per se*, but I think applying any kind of blanket rule to the question of what to do about outliers is, in general, not a wise choice.  If you're confronted with a situation in which you have a data point or two that are much different than the rest of your data, the best thing you can do is to think carefully about *why* they are different.  The answer might be in your data, it might be in notes to your experiment, or it might require some detective work of another sort altogether.  Your answer to the question of why a particular observation is an outlier should also lead you toward what to do about it.
+
+For instance, if a data point is different because it has been mis-entered (e.g. a research assistant typed 300 rather than 30), you may then decide to fix the problem in one of two ways - either fix it or remove it.  Fixing it will only be possible if you are *sure* of what the real value should be.
+
+On the other hand, you might have an observation which is different just because the person who contributed that datapoint behaved *much* differently than anyone else.  In this scenario, the question you might ask yourself is, 'did this person experience the same experiment that everyone else did?'  If the answer to that is yes, then it shouldn't matter if they behaved much differently than everyone else - their experience is just as meaningful to your research as is someone who scored much closer to the center of the distribution.  If, on the other hand, they experienced a different experiment - perhaps they didn't follow instructions, or the experimenter made a mistake - then in this case, you should almost certainly exclude this data.
+
+Essentially, you never want to throw away good information.  If your outlier is good information, then you should keep it.  You might consider some type of transformation of the data such that your models are better behaved (e.g. take the natural log).
+
 ##Maya's data
 
-Last time, we spent some effort looking at Mark's data.  This time, Maya has been kind enought to donate some of her data for the greater good.  She's already sent me her csv as well as the script she's used for the work.  I'm going to zip through some of her pre-processing first.  I'll stop to highlight a couple of things along the way, though.
-
 ```{r, warning=FALSE, message=FALSE}
-srp <- read.csv('Data/SR.Past.Rel.12.10.14.csv')
+srp <- read.csv('../Data/SR.Past.Rel.12.10.14.csv')
 #### EXCLUSIONS ####
 #exclude 5 who copied the Michael text verbatim (exclcopied=1)
 srp <- srp[ which(is.na(srp$exclcopied) == TRUE ), ]
@@ -262,7 +277,7 @@ To visualize, in step one, we get all the variance associated with Prime:
 ```{r, message=FALSE}
 # Note I'm using a modified version of the colorfulVennPlot package.
 # The modified package can be found on my github page.
-source('..//colorfulVennPlot/R/plotVenn3d.R')
+source('../..//colorfulVennPlot/R/plotVenn3d.R')
 plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('White', 2), rep('#144256', 2),
@@ -447,6 +462,10 @@ Note that all of this stuff about different sums of squares is really only relev
 
 ###Recap
 
+##### When you have an outlier, think about why it is what it is.
+
+Don't throw away good information.
+
 ##### Look at your data!
 
 Really can't emphasize this enough.
@@ -459,7 +478,7 @@ Really can't emphasize this enough.
 
 *Type III* does not have the bias present in type II, but has the disadvantage of having the least power of any of them (i.e. is the most conservative).  You will almost always be expected to run a type III.
 
-[img1]: Images/Var.png
-[img2]: Images/indep.png
-[img3]: Images/cor.png
+[img1]: ../Images/Var.png
+[img2]: ../Images/indep.png
+[img3]: ../Images/cor.png
 

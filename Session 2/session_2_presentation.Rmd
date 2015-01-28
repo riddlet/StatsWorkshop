@@ -37,17 +37,17 @@ Practically, we're going to rehash some of the stuff from last time.  As far as 
 
 ## This?
 
-![typo](Images/typo.jpg)
+![typo](../Images/typo.jpg)
 
 ## Or this?
 
-![tasty](Images/outlierburger.jpg)
+![tasty](../Images/outlierburger.jpg)
 
 ## Load in Data
 
 In Maya's R script, she first loads in her data:
 ```{r}
-srp <- read.csv('Data/SR.Past.Rel.12.10.14.csv')
+srp <- read.csv('../Data/SR.Past.Rel.12.10.14.csv')
 ```
 
 After this, she goes on to calculate some index measures and clean the file up a bit.  I've omitted that code here.  However, I'll highlight one thing she did
@@ -338,7 +338,7 @@ cor.test(srdissolve$vmessage, srdissolve$vrecall)
 ```{r fig.width=5, fig.height=4, warning=FALSE, fig.align='center', echo=FALSE}
 library(png)
 library(grid)
-img <- readPNG('Images/Anscombe.png')
+img <- readPNG('../Images/Anscombe.png')
 grid.raster(img)
 ```
 
@@ -468,7 +468,7 @@ Why would this matter?
 ##  This is the observed variability {.smaller}
 
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
-img <- readPNG('Images/Var.png')
+img <- readPNG('../Images/Var.png')
 grid.raster(img)
 ```
 
@@ -478,7 +478,7 @@ grid.raster(img)
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG('Images/indep.png')
+img <- readPNG('../Images/indep.png')
 grid.raster(img)
 ```
 
@@ -488,7 +488,7 @@ grid.raster(img)
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG('Images/Cor.png')
+img <- readPNG('../Images/Cor.png')
 grid.raster(img)
 ```
 
@@ -516,7 +516,7 @@ grid.raster(img)
 ## Step One: get the variance associated with Prime
 
 ```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=5} 
-source('..//colorfulVennPlot/R/plotVenn3d.R')  #load in my modified version
+source('../..//colorfulVennPlot/R/plotVenn3d.R')  #load in my modified version
 plotVenn3d(c(10, 10, 10, 10, 10, 10, 10), 
                   labels = c('Prime*Attitude', 'Attitude', 'Prime'), 
                   Colors = c('#144256', rep('White', 2), rep('#144256', 2),
