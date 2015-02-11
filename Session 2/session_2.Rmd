@@ -206,4 +206,4 @@ Don't throw away good information.
 
 ##### Look at your data!
 
-Really can't emphasize this enough.
+Really can't emphasize this enough.  It not only lets you find interesting information that might not show up in the raw summary statistics (e.g. 9 people gave a .5 rating!), but it also lets you discover the relationship between variables before running any inferential statistics, making interpretation of your results *much* easier!
