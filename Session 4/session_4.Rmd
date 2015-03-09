@@ -1,0 +1,68 @@
+---
+title: "Principles of Computing for Social Science"
+output: html_document
+---
+
+What is an R?  Why do I need it?  Why is it different from SPSS or Excel?  Is this a waste of my time?
+
+The idea behind this session is to answer questions such as these, and to provide the practical grounding and basic terminology inherent doing computational science.
+
+###Computational Science###
+You might not identify yourself as a computational scientist, but you almost certainly do some basic computational science already.  If you're collecting quantitative data (i.e. information represented numerically or categorically), and using any kind of statistical methods to find answers in this data, then that counts as computation.  Someone who identifies themself as a computational scientist simply scales this up such that it takes on a more primary role in their research.  In short, engaging in computational social science means that you're creating quantitative models of social phenomena in an effort to describe, understand, and predict them.  
+
+Note that this sounds fancier than it actually is.  We create quantitative models of our data all the time.  An average, for example, is a basic quantitative model.  Though it should be noted that simulation is typically a large part of computational science, and something that psychologists typically get little-to-no training in.
+
+####Motivation for Computation####
+There are lots of good reasons to have some familiarity with computation as an approach to scientific inquiry.  First, we're all doing an increasingly large portion of our scientific work *on* computers.  To that end, it makes sense that we should be able to maximize their utility.  You wouldn't want to be a chef who didn't really understand how a stove works, right?  As a scientist, one of your primary tools (aside from your brain) is your computer.  You should have a good understanding of how it works.
+
+Second, as psychologists, one of our fundamental units of interest is behavior.  If you read old psychology journals, there are a ton of awesome studies where researchers go out to the world and observe the thing that they're interested in.  This is not true to the same extent today.  I'm not sure why, exactly.  It's an interesting question, but I guess it doesn't matter so much.  What *does* matter is that today we can do this with much less effort.  Much of our overt behavior is recorded digitally somehow, and this trend is not exactly showing signs of reversing direction.  This is an extraordinarily rich set of data that is presently underutilized by psychologists.  In order to make use of it, it helps to know how to flexibly interact with a computer.
+
+This kind of approach also has potential to change our science itself on a more fundamental level.  If you view the digital world as a vast repository of behavior, then our little underpowered studies are no different from any other kind of behavior.  Instead of thinking about what an individual study says about our tendency to do X, it starts to become much easier to think about and investigate the entire *population of studies* which talk about X.  Further, I've found that this mode of thinking leads to viewing digital information in a radically different way:  photos, speeches, articles, links, books, movies, geotags, tables on webpages, etc. are all totally viable sources of data with which I can address my research questions.  The only hurdles to this are to what extent the information is accessible, and the amount of effort needed to give some kind of structure to these more unstructured data types.
+
+####It Ain't all good news####
+Even though I'm a big fan of doing this type of research, I don't mean to sell it as the magic bullet to answering all kinds of social questions.  In particular, there are some serious shortcomings to this brand of research.  These are frequently overlooked by both those who consume this type of work and those who produce it.
+
+1.  Sample =/= population
+  This is true in traditional psychology too.  We don't often consider how our sample does or does not represent the population we're interested in.  While this can be a problem in experiments, it's a much bigger problem with observational type studies.  Mining information from the web can lead to some real problems if you don't seriously consider how your particular sample may be different from the whole population.
+  
+2.  Observation is not causation.
+These unstructured types of information mean that you're going to have hard time inferring causality with any reasonable degree of certainty.  This is not always true.  You can, for example, run really creative randomized studies on the web, or using mobile devices, but when dealing with these basic ideas of working with already existing data - you can't do much in the way of claiming causal processes.  For that, you're either going to need to run a lab experiment or one of these web or mobile device based experiment (creative or otherwise...)
+
+3.  Thoughts are difficult to see
+  When you browse the web or look at some digital traces of behavior, there may be an indication of the underlying psychological processes, but your access to this information is going to be pretty poor.  This shouldn't be too discouraging - psychologists have been dealing with this problem since the dawn of the field.  We've typically managed to find interesting ways around the issue, and accepting this fundamental limitation for what it is.  This idea is true here too, but in a slightly different way than we're used to dealing with it.
+  
+####The big picture####
+We are professionals in a field where our currency is data (or at least, it should be...).  Even if you don't want to wade into the whole mess of behavior that's available digitally and view your science as something which fundamentally must take place in a laboratory setting with real human interactions and minimal computer involvement, being comfortable with computational approaches to your data has the potential to drastically simplify the way you approach statistical analysis.  This might sound counterintuitive, but that's largely because computing and simulating are absolutely ignored as something that psychologists should receive training in.
+
+We make decisions about our hypotheses based on probabilities.  What's the probability of observing your data, if the null hypothesis is true?  What's the probability that the data you observed came from the model (either informal and theoretical or formal and quantitative) you think generated it?  If you can create simulations, then you can answer these questions without knowing much about statistics at all!
+
+So, how do we do all this?  Well, we need to talk to the computer.  In order to do that, we need to know how to program.
+
+###R###
+1.  What is it?
+2.  How is it distinct from spss/excel?
+3.  What do I need to know to use it?
+  matrix
+  vectors
+  logic (e.g. boolean)
+  iteration
+
+4.  what does it do?
+  input, output, math, repetition, conditionals
+  
+5.  Errors
+  
+
+
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
