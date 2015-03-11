@@ -1,0 +1,78 @@
+---
+title: "Workshop, v4.0"
+author: "Travis Riddle"
+date: "March 12, 2015"
+output: ioslides_presentation
+---
+
+## Today's plan
+
+- Start with square one:  
+
+
+## Today's plan
+
+- Start with square one:  
+    - What is computational science?
+    - What does it mean to program?
+
+## Computational Science
+
+sounds like this
+
+![not this](../Images/ComputationalSci.jpg)
+
+## Computational Science
+
+But actually more like this
+
+![windows](../Images/gradstudents3.jpg)
+
+## Computational Science
+
+better...
+
+![too smiley](../Images/gradstudents2.jpg)
+
+
+## Computational Science
+
+perfect!
+
+![just right](../Images/gradstudents.jpg)
+
+## Computational Science
+
+In your research, if you're using any kind of quantitative or statistical methods as implemented in a computer, then you're doing computational science.
+
+## Computational Science
+
+Scale this up, include some simulation, and you're a computational scientist.
+
+## Why Computation?
+
+![chef](../Images/gordon.jpeg)
+
+## Why Computation?
+
+![stove](../Images/stove.jpg)
+
+## Why Computation?
+
+![stove](../Images/what.gif)
+
+## Why Computation?
+
+As a scientist in the 21st century, the computer is one of the most important tools you will use, so you should know how to use it.
+
+## Why Computation?
+
+You want to observe [behavior](http://internet-map.net/)?
+
+## Why Computation?
+
+We run experiments on mechanical turk, but seem to be positively allergic to the vast repository of behavior that is the internet.
+
+## Why Computation?
+
+![Quantitative Research](../Images/data_workflow.png)

@@ -195,5 +195,5 @@ I haven't spoken much about R explicitly here, but hopefully the *idea* of R is 
 [ref1]: <http://en.wikipedia.org/wiki/Quipu>
 [ref2]: <http://www.greenteapress.com/thinkpython/html/index.html>
 [ref3]: <http://www.princeton.edu/~mjs3/soc504_s2015/>
-[ref4]: <http://cfss.uchicago.edu/
-[ref5]: <http://brenocon.com/blog/2009/02/comparison-of-data-analysis-packages-r-matlab-scipy-excel-sas-spss-stata/>
+[ref4]: <http://cfss.uchicago.edu/>
+[ref5]: <http://brenocon.com/blog/2009/02/comparison-of-data-analysis-packages-r-matlab-scipy-excel-sas-spss-stata>
