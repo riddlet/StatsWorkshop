@@ -23,7 +23,7 @@ Further, I've found that this mode of thinking leads to viewing digital informat
 
 A few final pragmatic notes:  First, the dominant methodological training received by psychologists consists of one to two classes on how to design an experiment or observational study, and one or more classes in statistics.  In other words, we focus quite a bit on the 'data collection' and 'model' in the following figure:
 
-![Quantitative Research](Images/data_workflow.png)
+![Quantitative Research](../Images/data_workflow.png)
 
 While those things are clearly extremely important, I would argue that cleaning data, transforming data, and visualizing data take up a far greater proportion of the researcher's time and energy.  These are the kind of tasks that computational methods can help out with in a big way.  Unfortunately, for some reason, they're typically overlooked as something which is deserving of training.
 
@@ -31,7 +31,7 @@ Second, computation isn't going away anytime soon.  It's up to you to leverage i
 
 Speaking of which...
 
-![Jobs...Or lack thereof](Images/jobs.jpg)
+![Jobs...Or lack thereof](../Images/jobs.jpg)
 
 The above figure was published in *Nature* and refers to the science & engineering disciplines and shows that about 85% of PhDs will not work in a tenure track position.  This implies that of the 11 of us on this mailing list, 9 of us are going to go do something else.  I'm happy to talk to any of you about this in greater detail at any time - we don't receive nearly enough advice on this front, but for now, let's focus on the fact that of all the things you will learn to do in grad school, understanding computational methods and statistics is one of the more attractive, lucrative, and marketable skills you can have.
 
@@ -106,7 +106,7 @@ When you're working on a program or analyzing a dataset it can be overwhelming t
 #####Interactive vs Script based programming#####
 There are two ways to use a programming language like R.  In interactive mode, you can simply type commands at the console.  
 
-![console](Images/console.png)
+![console](../Images/console.png)
 
 There's nothing stopping you from only using this to do all your programming and analyses.  However, it's much better suited for testing out small pieces of code before embedding those in a larger program.
 
@@ -175,7 +175,7 @@ Like I mentioned previously, these are a constant companion to doing this type o
 
 A **Syntax** error occurs when you type something that the language doesn't recognize as valid.  Programming languages are very strict about what kinds of things are recognized as valid.  For instance:
 
-```{r}
+```{r, eval=F}
 1 + (7/2
 ```
 
@@ -187,15 +187,13 @@ An error results because it's a stupid machine.  Clearly, all I've done is inadv
 I haven't spoken much about R explicitly here, but hopefully the *idea* of R is a little more comfortable now than it was when we started.  Maybe everything I've written here sounds a bit like prostelytizing.  I'm clearly a fan of this approach to science and think it offers huge advantages to those who use these ideas.  However, I want to be clear that I don't think that computational methods are necessary to do good science - you can do just fine with a pencil and paper and perhaps a [quipu][ref1], though I'm not sure why you would want to.  Similarly, just because you're using computational methods doesn't mean that you're not producing garbage science.
 
 ###References###
-Allen Downey's [*Think Python*][ref2] book
-Matthew Salganik's [Advanced Data Analysis for the Social Sciences][ref3] class at Princeton
-[Computing for Social Sciences][ref4], taught by James Evans, Peter McMahan, and Michael Castelle at The University of Chicago
-Brendan O'Connor's insightful [blog post and subsequent discussion] of various data analysis tools
+- Allen Downey's [*Think Python*][ref2] book  
+- Matthew Salganik's [Advanced Data Analysis for the Social Sciences][ref3] class at Princeton  
+- [Computing for Social Sciences][ref4], taught by James Evans, Peter McMahan, and Michael Castelle at The University of Chicago  
+- Brendan O'Connor's insightful [blog post and subsequent discussion][ref5] of various data analysis tools  
 
 [ref1]: <http://en.wikipedia.org/wiki/Quipu>
 [ref2]: <http://www.greenteapress.com/thinkpython/html/index.html>
 [ref3]: <http://www.princeton.edu/~mjs3/soc504_s2015/>
 [ref4]: <http://cfss.uchicago.edu/
 [ref5]: <http://brenocon.com/blog/2009/02/comparison-of-data-analysis-packages-r-matlab-scipy-excel-sas-spss-stata/>
-
-  http://brenocon.com/blog/2009/02/comparison-of-data-analysis-packages-r-matlab-scipy-excel-sas-spss-stata/
