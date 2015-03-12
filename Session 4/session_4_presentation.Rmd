@@ -76,3 +76,10 @@ We run experiments on mechanical turk, but seem to be positively allergic to the
 ## Why Computation?
 
 ![Quantitative Research](../Images/data_workflow.png)
+
+## Why Computation?
+
+![Jobs...Or lack thereof](../Images/jobs.jpg)
+
+## Caveats
+
