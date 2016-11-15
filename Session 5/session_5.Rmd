@@ -1,0 +1,55 @@
+---
+title: "session_5"
+date: "11/15/2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+There are a number of ways of loading in data in specialized formats. Often a quick google search for `load in .*** file r` will point you in the right direction.
+
+For spss files, I like the tools available in the `haven` library, because I can also look at the variable labels and descriptions
+
+```{r}
+library(haven)
+df <- read_sav('../../Data/Cohort 1 7th Grade 03-04, 8th Grade 04-05 8th grade.sav')
+```
+
+The naming convention here is not the worst I've ever seen, but it's still definitely messy. The first 9 variables in this particular file contain information unique to the individual that persists over time. 
+
+```{r}
+df[1:9, 1:9]
+```
+
+The 9th column seems to be a visual indicator for people who are scrolling through this file as you might in excel - it says "everything to the right of this is from time 2". The nice thing about haven is we can access this information.
+
+```{r}
+attr(df$time_2, 'label')
+```
+
+Not everything here is clearly labeled in this way, but we can make sense enough of what we've got. Every piece of information for a given individual is arranged on their own row. Each question in a given survey gets its own column, and repeated administration of the same survey is denoted with the use of a suffix in the variable name, eg `belon1t2`, `belon1t10`, `belon1t19`, etc. This is a problem because:
+
+- question 1, question 2, question 3, etc. are the values of a variable we could call 'question'
+- t2, t10, t19, are the values of a variable we could call 'time'.
+
+So we have some variable values embedded in the question names.
+
+Here's a function to clean this mess up:
+
+```{r extractvar function, eval=FALSE}
+extractvar <- function(df, pref, splitchar=1){
+  cols <- grep(pref, names(df))
+  subdf <- df[,c(1,cols)]
+  subdf <- gather(subdf, var, val, -1)
+  splits <- str_split(subdf$var, 't')
+  subdf$var <- sapply(splits, '[', splitchar)
+  subdf$time <- sapply(splits, '[', splitchar+1)
+  return(subdf)
+}
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
