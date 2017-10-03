@@ -6,7 +6,7 @@ These are the files used in the creation of the stats workshop run for graduate 
 This should be self-explanatory
   
 **Sessions**  
-These directories contain information for each of the sessions.  Inside you will find several documents.  The pretty things are will be the two html files - one for presentation and one which is kind of a reading.  
+These directories contain information for each of the sessions.  Inside you will find several documents.  The pretty things will be the two html files - one for presentation and one which is kind of a reading.  
 
 The .Rmd and .Rpres files are the documents used to generate the html files described above.
   
