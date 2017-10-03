@@ -57,7 +57,9 @@ Goals
 
 ![image2](Images/profit.gif)
 
-slides and cheat sheet will be posted!
+slides: https://github.com/riddlet/StatsWorkshop/blob/master/Session%206/session_6.md
+
+cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
 Data "management"
 ========================================================
@@ -184,7 +186,7 @@ Data tidying
  
  - All functions we'll look at today return dataframes
  
- `new_data_frame <- f(data_frame, other_stuff)`
+ `new_data_frame <- foo(data_frame, other_stuff)`
  
  - This consistent input -> argument -> output format will allow us to easily chain together operations to do what we want to our data, without worrying about whether the data is formatted appropriately
 
