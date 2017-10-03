@@ -1,0 +1,873 @@
+Dplyr workshop
+========================================================
+author: Travis Riddle
+date: October 4th, 2017
+autosize: true
+
+Overview
+========================================================
+
+## What is this?
+  - A short tutorial to help you work more efficiently with R
+
+Overview
+========================================================
+
+## What is this?
+  - A short tutorial to help you work more efficiently with R
+  
+## What is this *not*?
+  - A statistics workshop
+
+Goals
+========================================================
+
+1. Understand and use best practices for data "management" and how to get your data into this format
+  - *tidy data* - `tidyr`
+
+Goals
+========================================================
+
+1. Understand and use best practices for data "management"
+  - *tidy data* - `tidyr`
+2. Learn the basic operations that allow you to quickly work with tidy data to get the information you need
+  - *data pliers* - `dplyr`
+
+![image1](Images/pliers.jpg)
+
+Goals
+========================================================
+
+1. Understand and use best practices for data "management"
+  - *tidy data* - `tidyr`
+2. Learn the basic operations that allow you to quickly work with tidy data to get the information you need
+  - *data pliers* - `dplyr`
+3. Profit
+
+![image2](Images/profit.gif)
+
+Goals
+========================================================
+
+1. Understand and use best practices for data "management"
+  - *tidy data* - `tidyr`
+2. Learn the basic operations that allow you to quickly work with tidy data to get the information you need
+  - *data pliers* - `dplyr`
+3. Profit
+
+![image2](Images/profit.gif)
+
+slides and cheat sheet will be posted!
+
+Data "management"
+========================================================
+
+All of our datasets should look the same:
+
+  - rows = observations  
+  - columns = variables
+  - values = entries
+
+```{r}
+df <- read.csv('../Data/demog.csv')
+head(df)
+```
+
+Data "management"
+========================================================
+
+All of our datasets should look the same:
+
+  - rows = observations  
+  - columns = variables
+  - values = entries
+  - tables = distinct measurement units
+
+```{r}
+df <- read.csv('../Data/demog.csv')
+head(df)
+```
+
+Data "management"
+========================================================
+
+All of our datasets should look the same:
+
+  - rows = observations  
+  - columns = variables
+  - values = entries
+  - tables = distinct measurement units
+
+```{r}
+df <- read.csv('../Data/grades.csv')
+head(df)
+```
+
+Data "management"
+========================================================
+
+Advantages of tidy data:
+
+  - The format works well with most modeling and plotting functions in R  
+  
+Data "management"
+========================================================
+
+Advantages of tidy data:
+
+  - The format works well with most modeling and plotting functions in R  
+  - A consistent format makes analyses across projects more consistent than they might be otherwise
+  
+Data "management"
+========================================================
+
+Advantages of tidy data:
+
+  - The format works well with most modeling and plotting functions in R  
+  - A consistent format makes analyses across projects more consistent than they might be otherwise
+  - Reduces the number of steps needed to extract relevant information (?)
+  
+Data "management"
+========================================================
+
+Advantages of tidy data:
+
+  - The format works well with most modeling and plotting functions in R  
+  - A consistent format makes analyses across projects more consistent than they might be otherwise
+  - Reduces the number of steps needed to extract relevant information (?)
+  - Simplifies the procedure needed to extract relevant information
+
+Data tidying
+========================================================
+
+Example dataset located at `https://goo.gl/zYGDMD`
+
+- my data from grad school
+- Mturk study
+- (Attempted to) manipulated power with a writing assignment (e.g. Galinsky & Moskowitz, 2003; Galinsky et al, 2006).
+- Measured all kinds of crap across 5 studies.
+
+Data tidying
+========================================================
+
+```{r}
+df <- read.csv('../Data/workshop_data.csv')
+dim(df)
+```
+
+Data tidying
+========================================================
+
+ - All functions we'll look at have a similar *argument* structure:
+ 
+ `foo(data_frame, other_stuff)`
+ 
+
+Data tidying
+========================================================
+
+ - All functions we'll look at have a similar *argument* structure:
+ 
+ `foo(data_frame, other_stuff)`
+ 
+ - All functions we'll look at today return dataframes
+ 
+ `new_data_frame <- foo(data_frame, other_stuff)`
+ 
+ 
+ Data tidying
+========================================================
+
+ - All functions we'll look at have a similar *argument* structure:
+ 
+ `foo(data_frame, other_stuff)`
+ 
+ - All functions we'll look at today return dataframes
+ 
+ `new_data_frame <- f(data_frame, other_stuff)`
+ 
+ - This consistent input -> argument -> output format will allow us to easily chain together operations to do what we want to our data, without worrying about whether the data is formatted appropriately
+
+Tidy data functions (tidyr)
+========================================================
+
+- `gather`
+- `spread`
+- `separate`
+- `unite`
+
+Gather - wide to long
+========================================================
+
+```{r}
+sub_df <- df[,c(1,7,55:82)]
+names(sub_df)
+```
+
+Gather - wide to long
+========================================================
+
+```{r}
+head(sub_df, 2)
+```
+
+Gather - wide to long
+========================================================
+
+`gather(data_frame, key=new_column_name1, value=new_column_name2, ...=variables_you_want_to_gather)`
+
+```{r}
+library(tidyr)
+dim(sub_df)
+sub_df <- gather(sub_df, variable, value, diri_daydream:diri_criticize)
+dim(sub_df)
+```
+
+Gather - wide to long
+========================================================
+
+```{r}
+head(sub_df)
+```
+
+Gather - wide to long
+========================================================
+
+## What did we do?
+
+<div align='center'>
+<img src='Images/tidyr-gather.png'>
+</div>
+
+
+Gather - wide to long
+========================================================
+
+Can select columns in a number of ways:
+
+`gather(sub_df, variable, value, diri_daydream, diri_tender, diri_POV)`
+
+Gather - wide to long
+========================================================
+
+Can select columns in a number of ways:
+
+`gather(sub_df, variable, value, diri_daydream, diri_tender, diri_POV)`
+
+`gather(sub_df, variable, value, -id, -power_cond)`
+
+Gather - wide to long
+========================================================
+
+Can select columns in a number of ways:
+
+`gather(sub_df, variable, value, diri_daydream, diri_tender, diri_POV)`
+
+`gather(sub_df, variable, value, -id, -power_cond)`
+
+`gather(sub_df, variable, value, starts_with('diri'))`
+
+Gather - wide to long
+========================================================
+
+Can select columns in a number of ways:
+
+`gather(sub_df, variable, value, diri_daydream, diri_tender, diri_POV)`
+
+`gather(sub_df, variable, value, -id, -power_cond)`
+
+`gather(sub_df, variable, value, starts_with('diri'))`
+
+`gather(sub_df, variable, value, ends_with('sides'))`
+
+Gather - wide to long
+========================================================
+
+Can select columns in a number of ways:
+
+`gather(sub_df, variable, value, diri_daydream, diri_tender, diri_POV)`
+
+`gather(sub_df, variable, value, -id, -power_cond)`
+
+`gather(sub_df, variable, value, starts_with('diri'))`
+
+`gather(sub_df, variable, value, ends_with('sides'))`
+
+`gather(sub_df, variable, value, contains('help'))`
+
+Spread - long to wide
+========================================================
+`spread(data_frame, key=column_that_contains_new_column_labels, value=column_that_contains_values)`
+
+```{r}
+dim(sub_df)
+sub_df <- spread(sub_df, variable, value)
+dim(sub_df)
+```
+
+Spread - long to wide
+========================================================
+## What did we do?
+
+<div align='center'>
+<img src='Images/tidyr-spread.png'>
+</div>
+
+separate - one column into two
+========================================================
+`separate(data_frame, col=variable_to_separate, into=c('new', 'variables'), sep=thing_to_separate_on)`
+
+```{r}
+sub_df <- df[,c(1,7,31:42)]
+dim(sub_df)
+sub_df <- gather(sub_df, variable, value, selfaq01:otheraq12)
+head(sub_df)
+```
+
+separate - one column into two
+========================================================
+`separate(data_frame, col=variable_to_separate, into=c('new', 'variables'), sep=thing_to_separate_on)`
+
+```{r}
+sub_df <- df[,c(1,7,31:42)]
+dim(sub_df)
+sub_df <- gather(sub_df, variable, value, selfaq01:otheraq12)
+sub_df <- separate(sub_df, variable, into=c('target', 'question'), 'a')
+head(sub_df)
+```
+
+separate - one column into two
+========================================================
+Can separate columns in a number of ways:
+
+`separate(sub_df, variable, c('new', 'variables'), sep=3)`
+
+`separate(sub_df, variable, c('new', 'variables'), sep=-2)`
+
+`separate(sub_df, variable, c('new', 'variables'), sep='[f|r]')`
+
+
+side note on the power & pain of regular expressions
+========================================================
+> Politics would be very important for people who are intrested @interested@ in being a lawer. @lawyer.@
+
+side note on the power & pain of regular expressions
+========================================================
+> Politics would be very important for people who are intrested @interested@ in being a lawer. @lawyer.@
+
+`essaytext <- gsub("\\w*'?\\w*['.,]?\\s?@(.*?)@", '\\1', essaytext)`
+
+
+side note on the power & pain of regular expressions
+========================================================
+> Politics would be very important for people who are intrested @interested@ in being a lawer. @lawyer.@
+
+`essaytext <- gsub("\\w*'?\\w*['.,]?\\s?@(.*?)@", '\\1', essaytext)`
+
+![fire](Images/fire.gif)
+
+side note on the power & pain of regular expressions
+========================================================
+> Politics would be very important for people who are intrested @interested@ in being a lawer. @lawyer.@
+
+`essaytext <- gsub("\\w*'?\\w*['.,]?\\s?@(.*?)@", '\\1', essaytext)`
+
+![fire](Images/fire.gif)
+
+Build them up slowly. Make sure you've got a good tool to test it out. I like regex101:
+
+https://regex101.com/
+
+separate - one column into two
+========================================================
+Can separate columns in a number of ways:
+
+`separate(sub_df, variable, c('new', 'variables'), sep=3)`
+
+`separate(sub_df, variable, c('new', 'variables'), sep=-2)`
+
+`separate(sub_df, variable, c('new', 'variables'), sep='[f|r]')`
+
+unite - two columns into one
+========================================================
+`unite(data_frame, col=new_column_name, ...=columns_to_unite, sep='thing_to_separate_them')`
+
+```{r}
+head(sub_df)
+```
+
+unite - two columns into one
+========================================================
+`unite(data_frame, col=new_column_name, ...=columns_to_unite, sep='thing_to_separate_them')`
+
+```{r}
+sub_df <- unite(sub_df, all_questions, target, question, sep='_')
+head(sub_df)
+```
+
+unite - two columns into one
+========================================================
+As before, you can select columns in a number of ways
+
+`unite(sub_df, all_questions, target, question, value, sep='_')`
+
+`unite(sub_df, all_questions, -id, -power_cond, sep='_')`
+
+`unite(sub_df, all_questions, starts_with(....), sep='_')`
+
+`unite(sub_df, all_questions, ends_with(...), sep='_')`
+
+`unite(sub_df, all_questions, contains(...), sep='_')`
+
+tidyr - your turn
+========================================================
+
+I want this data reformatted. I'm interested in examining how long people took. 
+
+1. Describe what a tidy version of this would look like.
+
+tidyr - your turn
+========================================================
+
+I want this data reformatted. I'm interested in examining how long people took. 
+
+1. Describe what a tidy version of this would look like.
+2. Using the verbs gather, spread, separate, and unite, describe the *steps* you should take to achieve that tidy data frame
+
+tidyr - your turn
+========================================================
+
+I want this data reformatted. I'm interested in examining how long people took. 
+
+1. Describe what a tidy version of this would look like.
+2. Using the verbs gather, spread, separate, and unite, describe the *steps* you should take to achieve that tidy data frame
+3. Make it happen!
+
+Intermission
+========================================================
+
+Using these four tools, we can accomplish *most* tidying work.
+
+Next items:
+
+  - `%>%`
+  - `dplyr`
+  
+The pipe
+========================================================
+
+The pipe `%>%` takes the output from one function and feeds it into the first argument of the next function
+
+```{r}
+x <- rnorm(mean=7, sd=1, 1000)
+x %>% mean()
+```
+
+The pipe
+========================================================
+
+The pipe `%>%` takes the output from one function and feeds it into the first argument of the next function
+
+```{r}
+rnorm(mean=7, sd=1, 1000) %>% mean(.)
+```
+
+Piping in tidyverse
+========================================================
+
+Because everything in the tidyverse returns a full data frame, and all functions take a dataframe as the first argument, piping allows us to easily chain together sequences of operations
+
+```{r}
+library(dplyr) #to use select
+df %>%
+  select(id, contains('time')) %>%
+  gather(time, value, -id) %>%
+  separate(time, into=c('prefix', 'item'), 4) %>%
+  separate(value, into=c('date', 'time'), ' ') %>%
+  head()
+```
+
+The dplyr verbs, pt1
+========================================================
+
+`select` - pick out columns by name
+`filter` - pick out rows to keep
+`arrange` - reorder rows
+`mutate` - add new variable
+`summarise` - reduce many values to one (e.g. mean(x); sd(x))
+`group_by` - perform subsequent operations on groups within the dataframe
+
+Select - pick out columns by name
+========================================================
+
+`df %>% select(id, power_cond, greverb01)`
+
+`df %>% select(-id, -number, -timewriting)`
+
+`df %>% select(-diri_daydream:-diri_needshelp)`
+
+`df %>% select(starts_with('selfsuff'))`
+
+`df %>% select(one_of('id', 'power_cond'))`
+
+`df %>% select(num_range('timesurvey', 2:4))`
+
+`df %>% select(matches('awful_regular_expression'))`
+
+`df %>% select(ends_with('writing'))`
+
+`df %>% select(contains('diri'))`
+
+Select - pick out columns by name
+========================================================
+
+understanding what is possible is more valuable than memorizing all these
+
+Filter - pick out rows to keep
+========================================================
+
+```{r}
+df %>% 
+  select(id, power_cond) %>%
+  filter(power_cond==0) %>%
+  head()
+```
+
+Filter - pick out rows to keep
+========================================================
+
+You should understand boolean operators:
+
+`>`, `>=` - greater than/greater than or equal to
+`<`, `<=` - less than/less than or equal to
+`==` - is equal to
+`!=` - is not equal to
+`&` - and (used to select cases that meet multiple criteria)
+`|` - or (used to select cases that meet one of multiple criteria)
+
+Filter - pick out rows to keep
+========================================================
+
+```{r}
+df %>%
+  select(id, ethnicity) %>%
+  filter(ethnicity=='American Indian or Alaskan Native' |
+           ethnicity=='Black or African American') 
+```
+
+Filter - pick out rows to keep
+========================================================
+
+```{r}
+df %>%
+  select(id, ethnicity) %>%
+  filter(ethnicity=='American Indian or Alaskan Native' &
+           ethnicity=='Black or African American') 
+```
+
+Filter - pick out rows to keep
+========================================================
+
+```{r}
+df %>%
+  select(id, power_cond, ethnicity) %>%
+  filter(ethnicity=='Asian' &
+           power_cond==1) 
+```
+
+arrange - reorder rows
+========================================================
+
+```{r}
+df %>%
+  select(id, age) %>%
+  arrange(age) %>%
+  head()
+```
+
+arrange - reorder rows
+========================================================
+
+```{r}
+df %>%
+  select(id, age) %>%
+  filter(age!='NULL') %>%
+  arrange(desc(age)) %>%
+  head()
+```
+
+mutate - make new variable
+========================================================
+
+ugh. factors.
+
+```{r}
+df %>%
+  mutate(selfsuff_sum = selfsuff01+selfsuff02+selfsuff03+selfsuff04) %>%
+  select(id, selfsuff01:selfsuff04, selfsuff_sum) 
+```
+
+mutate - make new variable
+========================================================
+
+`mutate_at` to the rescue!
+
+```{r}
+df %>%
+  mutate_at(vars(selfsuff01:selfsuff04), funs(as.numeric(as.character(.)))) %>%
+  mutate(selfsuff_sum = selfsuff01+selfsuff02+selfsuff03+selfsuff04) %>%
+  select(id, selfsuff01:selfsuff04, selfsuff_sum)  %>%
+  head()
+```
+
+summarise - reduce many values to one
+========================================================
+
+```{r}
+df %>%
+  summarise(word_count = mean(qdap::wc(writing)))
+```
+
+summarise - reduce many values to one
+========================================================
+
+```{r}
+df %>%
+  summarise(word_count = mean(qdap::wc(writing)))
+```
+
+group_by - reduce many values to one
+========================================================
+
+```{r}
+df %>%
+  group_by(power_cond) %>%
+  summarise(word_count = mean(qdap::wc(writing)),
+            sd_wc = sd(qdap::wc(writing)))
+```
+
+group_by - reduce many values to one
+========================================================
+
+```{r}
+df %>%
+  group_by(power_cond) %>%
+  summarise(word_count = mean(qdap::wc(writing)),
+            sd_wc = sd(qdap::wc(writing)),
+            se_wc = sd(qdap::wc(writing))/sqrt(n()))
+```
+
+Recall
+========================================================
+
+- `gather` ?
+
+Recall
+========================================================
+
+- `gather` - wide to long
+- `filter` - ?
+
+Recall
+========================================================
+
+- `gather` - wide to long
+- `filter` - select rows to keep
+- `unite` - ?
+
+Recall
+========================================================
+
+- `gather` - wide to long
+- `filter` - select rows to keep
+- `unite` - combine multiple columns into one\
+- `group_by` - ?
+
+Recall
+========================================================
+
+- `gather` - wide to long
+- `filter` - select rows to keep
+- `unite` - combine multiple columns into one
+- `group_by` - perform subsequent operations on groups with common values of identified column(s)
+
+Self-test?
+========================================================
+
+What does this do?
+
+```{r, eval=FALSE}
+df %>%
+  select(id, contains('greverb')) %>%
+  gather(question, value, -id) %>%
+  mutate(value = as.numeric(as.character(value))) %>%
+  group_by(id) %>%
+  summarise(outcome = mean(value, na.rm=T))
+```
+
+Self-test?
+========================================================
+
+What does this do?
+
+```{r, eval=FALSE}
+df %>%
+  select(id, contains('greverb')) %>%
+  gather(question, value, -id) %>%
+  mutate(value = as.numeric(as.character(value))) %>%
+  group_by(id) %>%
+  summarise(outcome = mean(value, na.rm=T))
+```
+
+Your turn
+========================================================
+
+Are any of the gre verbal questions especially hard or easy?
+
+Make a pipeline that shows the gre questions, sorted from the easiest (highest value) to the hardest (lowest value)
+
+Your turn
+========================================================
+
+```{r}
+df %>%
+  select(id, contains('greverb')) %>%
+  gather(question, value, -id) %>%
+  mutate(value = as.numeric(as.character(value))) %>%
+  group_by(question) %>%
+  summarise(outcome = mean(value, na.rm=T)) %>%
+  arrange(outcome)
+```
+
+Bonus!
+========================================================
+
+Understand joining operations:
+
+![joins](Images/dplyr-joins.png)
+
+Bonus!
+========================================================
+
+Understand joining operations:
+```{r}
+dim(df)
+df %>%
+  group_by(power_cond) %>%
+  summarise(word_count = mean(qdap::wc(writing)),
+            sd_wc = sd(qdap::wc(writing)),
+            se_wc = sd(qdap::wc(writing))/sqrt(n())) %>%
+  right_join(df) %>%
+  dim()
+```
+
+Bonus!
+========================================================
+
+Understand joining operations:
+```{r}
+df %>%
+  group_by(power_cond) %>%
+  summarise(word_count = mean(qdap::wc(writing)),
+            sd_wc = sd(qdap::wc(writing)),
+            se_wc = sd(qdap::wc(writing))/sqrt(n())) %>%
+  right_join(df) %>%
+  select(id, power_cond, word_count, sd_wc, se_wc)
+```
+
+dplyr to ggplot in one chain
+========================================================
+
+```{r}
+library(ggplot2)
+df %>%
+  select(id, contains('greverb')) %>%
+  gather(question, value, -id) %>%
+  mutate(value = as.numeric(as.character(value))) %>%
+  group_by(question) %>%
+  summarise(score = mean(value, na.rm=T),
+            se = sd(value, na.rm=T)/sqrt(n())) %>%
+  mutate(ci_upper = score+1.96*se,
+         ci_lower = score-1.96*se) %>%
+  ungroup() %>%
+  ggplot(aes(x=question, y=score)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=ci_lower, ymax=ci_upper)) +
+  theme_classic() +
+  theme(axis.text = element_text(size=8),
+        axis.text.x = element_text(angle = 25, vjust=.1),
+        axis.title.x=element_blank()) -> plot
+```
+
+dplyr to ggplot in one chain
+========================================================
+
+```{r,fig.width=6,fig.height=4,dpi=300,out.width="1000px",out.height="700px"}
+plot
+```
+
+dplyr to ggplot in one chain
+========================================================
+
+```{r}
+library(ggplot2)
+df %>%
+  select(id, contains('greverb')) %>%
+  gather(question, value, -id) %>%
+  mutate(value = as.numeric(as.character(value))) %>%
+  group_by(question) %>%
+  summarise(score = mean(value, na.rm=T),
+            se = sd(value, na.rm=T)/sqrt(n())) %>%
+  mutate(ci_upper = score+1.96*se,
+         ci_lower = score-1.96*se) %>%
+  ungroup() %>%
+  mutate(question = reorder(question, score)) %>% #new line - what will this do?
+  ggplot(aes(x=question, y=score)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=ci_lower, ymax=ci_upper)) +
+  theme_classic() +
+  theme(axis.text = element_text(size=8),
+        axis.text.x = element_text(angle = 25, vjust=.1),
+        axis.title.x=element_blank()) -> plot
+```
+
+dplyr to ggplot in one chain
+========================================================
+
+```{r,fig.width=6,fig.height=4,dpi=300,out.width="1000px",out.height="700px"}
+plot
+```
+
+wrap-up
+========================================================
+
+- I've shown you the *core* functions in dplyr. There are a bunch of others that you may or may not find useful
+
+wrap-up
+========================================================
+
+- I've shown you the *core* functions in dplyr. There are a bunch of others that you may or may not find useful
+- There are other packages in the tidyverse that work extremely well in this framework
+  - `forcats` for working with factors
+  - `stringr` for working with strings
+  - `lubridate` for working with dates
+  - `haven` for reading in data from other formats (e.g. sas, stata, spss, etc)
+  - `broom` for tidying output from models (e.g. `tidy(lm(y~x))`)  
+  ... etc
+  
+Go forth and profit
+========================================================
+
+<div align='left'>
+<img src='Images/GitHub-Mark.png' width=100, height=100>
+</div> https://github.com/riddlet/StatsWorkshop
+
+(this is session 6)
+
+<div align='left'>
+<img src='Images/twitter.png' width=100, height=100>
+</div> @triddle42
+
+
+Cheat sheet available here:  
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
