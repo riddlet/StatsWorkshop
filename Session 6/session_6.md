@@ -639,7 +639,7 @@ x %>% mean()
 ```
 
 ```
-[1] 6.983169
+[1] 7.05466
 ```
 
 The pipe
@@ -653,7 +653,7 @@ rnorm(mean=7, sd=1, 1000) %>% mean(.)
 ```
 
 ```
-[1] 7.043799
+[1] 7.000253
 ```
 
 Piping in tidyverse
@@ -685,12 +685,17 @@ df %>%
 The dplyr verbs, pt1
 ========================================================
 
-`select` - pick out columns by name
-`filter` - pick out rows to keep
-`arrange` - reorder rows
-`mutate` - add new variable
-`summarise` - reduce many values to one (e.g. mean(x); sd(x))
-`group_by` - perform subsequent operations on groups within the dataframe
+`select` - pick out columns by name  
+
+`filter` - pick out rows to keep  
+
+`arrange` - reorder rows  
+
+`mutate` - add new variable  
+
+`summarise` - reduce many values to one (e.g. mean(x); sd(x))  
+
+`group_by` - perform subsequent operations on groups within the dataframe  
 
 Select - pick out columns by name
 ========================================================
@@ -744,12 +749,12 @@ Filter - pick out rows to keep
 
 You should understand boolean operators:
 
-`>`, `>=` - greater than/greater than or equal to
-`<`, `<=` - less than/less than or equal to
-`==` - is equal to
-`!=` - is not equal to
-`&` - and (used to select cases that meet multiple criteria)
-`|` - or (used to select cases that meet one of multiple criteria)
+`>`, `>=` - greater than/greater than or equal to  
+`<`, `<=` - less than/less than or equal to  
+`==` - is equal to  
+`!=` - is not equal to  
+`&` - and (used to select cases that meet multiple criteria)  
+`|` - or (used to select cases that meet one of multiple criteria)  
 
 Filter - pick out rows to keep
 ========================================================
@@ -1015,7 +1020,7 @@ df %>%
 1   82.92857
 ```
 
-group_by - reduce many values to one
+group_by - perform subsequent operations on specified groups
 ========================================================
 
 
@@ -1035,7 +1040,7 @@ df %>%
 3          2   84.21951 44.82550
 ```
 
-group_by - reduce many values to one
+group_by - perform subsequent operations on specified groups
 ========================================================
 
 
@@ -1105,20 +1110,6 @@ df %>%
   summarise(outcome = mean(value, na.rm=T))
 ```
 
-Self-test?
-========================================================
-
-What does this do?
-
-
-```r
-df %>%
-  select(id, contains('greverb')) %>%
-  gather(question, value, -id) %>%
-  mutate(value = as.numeric(as.character(value))) %>%
-  group_by(id) %>%
-  summarise(outcome = mean(value, na.rm=T))
-```
 
 Your turn
 ========================================================
@@ -1262,7 +1253,7 @@ dplyr to ggplot in one chain
 plot
 ```
 
-<img src="session_6-figure/unnamed-chunk-35-1.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" width="1000px" height="700px" />
+<img src="session_6-figure/unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" width="1000px" height="700px" />
 
 dplyr to ggplot in one chain
 ========================================================
@@ -1298,7 +1289,7 @@ dplyr to ggplot in one chain
 plot
 ```
 
-<img src="session_6-figure/unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" width="1000px" height="700px" />
+<img src="session_6-figure/unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" width="1000px" height="700px" />
 
 wrap-up
 ========================================================

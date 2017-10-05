@@ -492,12 +492,17 @@ df %>%
 The dplyr verbs, pt1
 ========================================================
 
-`select` - pick out columns by name
-`filter` - pick out rows to keep
-`arrange` - reorder rows
-`mutate` - add new variable
-`summarise` - reduce many values to one (e.g. mean(x); sd(x))
-`group_by` - perform subsequent operations on groups within the dataframe
+`select` - pick out columns by name  
+
+`filter` - pick out rows to keep  
+
+`arrange` - reorder rows  
+
+`mutate` - add new variable  
+
+`summarise` - reduce many values to one (e.g. mean(x); sd(x))  
+
+`group_by` - perform subsequent operations on groups within the dataframe  
 
 Select - pick out columns by name
 ========================================================
@@ -540,12 +545,12 @@ Filter - pick out rows to keep
 
 You should understand boolean operators:
 
-`>`, `>=` - greater than/greater than or equal to
-`<`, `<=` - less than/less than or equal to
-`==` - is equal to
-`!=` - is not equal to
-`&` - and (used to select cases that meet multiple criteria)
-`|` - or (used to select cases that meet one of multiple criteria)
+`>`, `>=` - greater than/greater than or equal to  
+`<`, `<=` - less than/less than or equal to  
+`==` - is equal to  
+`!=` - is not equal to  
+`&` - and (used to select cases that meet multiple criteria)  
+`|` - or (used to select cases that meet one of multiple criteria)  
 
 Filter - pick out rows to keep
 ========================================================
@@ -638,7 +643,7 @@ df %>%
   summarise(word_count = mean(qdap::wc(writing)))
 ```
 
-group_by - reduce many values to one
+group_by - perform subsequent operations on specified groups
 ========================================================
 
 ```{r}
@@ -648,7 +653,7 @@ df %>%
             sd_wc = sd(qdap::wc(writing)))
 ```
 
-group_by - reduce many values to one
+group_by - perform subsequent operations on specified groups
 ========================================================
 
 ```{r}
@@ -707,19 +712,6 @@ df %>%
   summarise(outcome = mean(value, na.rm=T))
 ```
 
-Self-test?
-========================================================
-
-What does this do?
-
-```{r, eval=FALSE}
-df %>%
-  select(id, contains('greverb')) %>%
-  gather(question, value, -id) %>%
-  mutate(value = as.numeric(as.character(value))) %>%
-  group_by(id) %>%
-  summarise(outcome = mean(value, na.rm=T))
-```
 
 Your turn
 ========================================================
