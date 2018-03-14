@@ -28,7 +28,7 @@ Goals
 Goals
 ========================================================
 
-1. Understand and use best practices for data "management"
+1. Understand and use best practices for data "management" and how to get your data into this format
   - *tidy data* - `tidyr`
 2. Learn the basic operations that allow you to quickly work with tidy data to get the information you need
   - *data pliers* - `dplyr`
