@@ -241,6 +241,14 @@ Gather - wide to long
 <img src='Images/tidyr-gather.png'>
 </div>
 
+Gather - wide to long
+========================================================
+
+## Why did we do it?
+
+<div align='center'>
+<img src='Images/groupby.png'>
+</div>
 
 Gather - wide to long
 ========================================================
@@ -865,3 +873,6 @@ Go forth and profit
 
 Cheat sheet available here:  
 https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+
+Please give me feedback:
+https://tinyurl.com/ycrfgrpt

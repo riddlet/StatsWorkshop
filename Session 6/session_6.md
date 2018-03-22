@@ -28,7 +28,7 @@ Goals
 Goals
 ========================================================
 
-1. Understand and use best practices for data "management"
+1. Understand and use best practices for data "management" and how to get your data into this format
   - *tidy data* - `tidyr`
 2. Learn the basic operations that allow you to quickly work with tidy data to get the information you need
   - *data pliers* - `dplyr`
@@ -343,6 +343,14 @@ Gather - wide to long
 <img src='Images/tidyr-gather.png'>
 </div>
 
+Gather - wide to long
+========================================================
+
+## Why did we do it?
+
+<div align='center'>
+<img src='Images/groupby.png'>
+</div>
 
 Gather - wide to long
 ========================================================
@@ -639,7 +647,7 @@ x %>% mean()
 ```
 
 ```
-[1] 7.05466
+[1] 6.966288
 ```
 
 The pipe
@@ -653,7 +661,7 @@ rnorm(mean=7, sd=1, 1000) %>% mean(.)
 ```
 
 ```
-[1] 7.000253
+[1] 6.992623
 ```
 
 Piping in tidyverse
@@ -1324,3 +1332,6 @@ Go forth and profit
 
 Cheat sheet available here:  
 https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+
+Please give me feedback:
+https://tinyurl.com/ycrfgrpt
